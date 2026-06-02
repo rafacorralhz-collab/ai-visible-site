@@ -1,0 +1,13 @@
+# AI-Visible
+
+> Directorio experimental de fichas de negocio optimizadas para modelos de lenguaje conversacionales. Proyecto académico (TFM Nuclio Digital School 2026).
+
+Las fichas listadas describen negocios con información estructurada (schema.org + Q&A) pensada para ser citada en respuestas de ChatGPT, Perplexity y Claude. Algunos negocios pueden ser ficticios como parte del experimento.
+
+## Asesorías
+
+- [Asesoría Vélez & Romero](https://ai-visible.app/asesorias/velez-romero.html): gestoría fiscal-laboral en Madrid (Chamberí) especializada en autónomos extranjeros y nómadas digitales. Atención en español, inglés y francés.
+
+## Sobre el experimento
+
+El objetivo del proyecto es medir cuantitativamente si una ficha optimizada (descripción canónica, JSON-LD schema.org, FAQPage estructurado) aumenta la probabilidad de que un negocio aparezca en respuestas conversacionales de modelos de lenguaje, comparando una línea base previa a la publicación con mediciones posteriores.
