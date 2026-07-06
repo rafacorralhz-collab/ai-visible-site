@@ -1,57 +1,1397 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI-Visible — Directorio de negocios para modelos de lenguaje</title>
-  <meta name="description" content="AI-Visible es un directorio experimental de fichas de negocio optimizadas para que los modelos de lenguaje (ChatGPT, Perplexity, Claude) puedan recomendarlos en respuestas conversacionales.">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "AI-Visible",
-    "url": "https://ai-visible.app",
-    "description": "Directorio experimental de fichas de negocio optimizadas para modelos de lenguaje."
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConciergeIA — Más facturación por huésped. Menos llamadas en recepción.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..800,30..100,0..1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF7F1;
+    --bg-warm: #F4EFE3;
+    --ink: #14181F;
+    --ink-soft: #2A2F39;
+    --smoke: #6B6760;
+    --concierge: #C44A1E;
+    --concierge-dim: #A53C16;
+    --bottle: #2D4A3E;
+    --gold: #B8924A;
+    --hairline: #D9D3C5;
+    --paper: #FFFFFF;
   }
-  </script>
 
-  <style>
-    body { font-family: -apple-system, system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1.25rem; line-height: 1.6; color: #1a1a1a; }
-    .disclaimer { background: #fff3cd; border: 1px solid #ffe69c; padding: 0.9rem 1.1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.9rem; }
-    h1 { font-size: 1.8rem; margin-bottom: 0.2rem; }
-    .lead { color: #555; font-size: 1.05rem; margin-bottom: 2rem; }
-    h2 { font-size: 1.2rem; margin-top: 2.2rem; }
-    .ficha { display: block; padding: 1rem 1.2rem; border: 1px solid #e5e5e5; border-radius: 10px; margin-bottom: 0.8rem; text-decoration: none; color: inherit; transition: border-color 0.15s; }
-    .ficha:hover { border-color: #1a56db; }
-    .ficha h3 { margin: 0 0 0.2rem; font-size: 1.05rem; color: #1a56db; }
-    .ficha p { margin: 0; color: #555; font-size: 0.92rem; }
-    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; font-size: 0.85rem; color: #777; }
-    a { color: #1a56db; }
-  </style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .container-narrow { max-width: 980px; margin: 0 auto; padding: 0 32px; }
+
+  .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 380;
+    font-variation-settings: "SOFT" 50, "WONK" 0, "opsz" 144;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+  }
+  .display-xl { font-size: clamp(46px, 6.4vw, 86px); }
+  .display-lg { font-size: clamp(34px, 4.2vw, 56px); }
+  .display-md { font-size: clamp(26px, 3vw, 38px); }
+  .display em {
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+    color: var(--concierge);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    font-weight: 500;
+  }
+  .eyebrow-mark { display: inline-flex; align-items: center; gap: 12px; }
+  .eyebrow-mark::before { content: ""; width: 24px; height: 1px; background: var(--concierge); }
+
+  .lead {
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+
+  /* Nav */
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250, 247, 241, 0.92);
+    backdrop-filter: saturate(180%) blur(8px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  nav.top .inner {
+    display: flex; align-items: center; justify-content: space-between; height: 68px;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 500;
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 10px;
+    color: var(--ink); text-decoration: none;
+  }
+  .logo-mark {
+    width: 28px; height: 28px;
+    background: var(--concierge);
+    border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--ink-soft); text-decoration: none;
+    font-size: 14px; font-weight: 500;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--concierge); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.15s, background 0.15s, border-color 0.15s;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--ink); color: var(--bg); }
+  .btn-primary:hover { background: var(--concierge); transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--hairline); }
+  .btn-ghost:hover { border-color: var(--ink); background: var(--bg-warm); }
+  .btn-sm { padding: 10px 18px; font-size: 14px; }
+
+  /* HERO */
+  section.hero { padding: 70px 0 90px; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 70px; align-items: center;
+  }
+  .hero-eyebrow { margin-bottom: 26px; }
+  h1.hero-title { margin-bottom: 26px; }
+  .hero-lead { margin-bottom: 36px; max-width: 540px; }
+  .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .hero-meta {
+    margin-top: 44px; padding-top: 26px;
+    border-top: 1px solid var(--hairline);
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .hero-meta .item-value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--ink); letter-spacing: -0.015em;
+    margin-bottom: 4px;
+  }
+  .hero-meta .item-label { font-size: 12px; color: var(--smoke); line-height: 1.35; }
+
+  /* Chat card */
+  .chat-card {
+    background: var(--paper);
+    border-radius: 18px;
+    box-shadow: 0 1px 0 var(--hairline), 0 30px 60px -30px rgba(20, 24, 31, 0.18);
+    overflow: hidden;
+  }
+  .chat-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--hairline);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bottle), #4a6b5e);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 16px; font-weight: 500;
+  }
+  .chat-meta-text { display: flex; flex-direction: column; line-height: 1.25; }
+  .chat-meta-name { font-weight: 600; font-size: 14px; color: var(--ink); }
+  .chat-meta-status { font-size: 11px; color: var(--smoke); display: flex; align-items: center; gap: 6px; }
+  .chat-meta-status::before { content: ""; width: 6px; height: 6px; background: #2ea043; border-radius: 50%; }
+  .chat-room {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em;
+    color: var(--smoke); text-transform: uppercase;
+  }
+  .chat-body {
+    padding: 22px 18px;
+    background: radial-gradient(circle at 1px 1px, rgba(20,24,31,0.04) 1px, transparent 0);
+    background-size: 16px 16px;
+    background-color: #f7f2e8;
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 380px;
+  }
+  .msg {
+    max-width: 78%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px; line-height: 1.45;
+  }
+  .msg.in { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 0 rgba(20,24,31,0.05); }
+  .msg.out { background: #DCF8C6; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .msg-time { font-size: 10px; color: var(--smoke); margin-top: 4px; display: block; }
+  .msg.out .msg-time { text-align: right; }
+  .msg .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.1em;
+    color: var(--bottle); text-transform: uppercase;
+    margin-bottom: 4px; display: block;
+  }
+
+  /* Hotels band */
+  section.hotels-band { padding: 30px 0 80px; }
+  .hotels-label { text-align: center; margin-bottom: 32px; }
+  .hotels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .hotel-tile {
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 22px 24px;
+    background: var(--paper);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .hotel-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--concierge);
+    margin-bottom: 6px;
+  }
+  .hotel-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 400;
+    letter-spacing: -0.015em; color: var(--ink);
+  }
+  .hotel-loc { font-size: 13px; color: var(--smoke); }
+
+  /* PILLARS — 3 columns now */
+  section.pillars {
+    padding: 110px 0;
+    background: var(--bg-warm);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .section-head { max-width: 720px; margin-bottom: 70px; }
+  .section-head .eyebrow { margin-bottom: 20px; display: inline-block; }
+  .section-head h2 { margin-bottom: 20px; }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .pillar {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 18px;
+    padding: 30px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .pillar-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--concierge);
+  }
+  .pillar h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px; font-weight: 400;
+    letter-spacing: -0.02em; line-height: 1.1;
+  }
+  .pillar p { color: var(--ink-soft); font-size: 14.5px; }
+  .pillar-chat {
+    margin-top: 4px;
+    background: #f7f2e8;
+    padding: 16px;
+    border-radius: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+    border: 1px solid var(--hairline);
+  }
+  .pillar-chat .msg { font-size: 12.5px; max-width: 90%; padding: 8px 12px; }
+  .pillar-chat .msg.out { white-space: pre-line; }
+  .pillar-stats {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px dashed var(--hairline);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--ink); letter-spacing: -0.02em;
+  }
+  .stat-lbl { font-size: 11px; color: var(--smoke); line-height: 1.4; }
+
+  /* CAMPAIGNS IA */
+  section.campaigns {
+    padding: 110px 0;
+    background: var(--ink);
+    color: var(--bg);
+  }
+  section.campaigns .eyebrow { color: rgba(250, 247, 241, 0.55); }
+  section.campaigns .section-head h2 { color: var(--bg); }
+  section.campaigns .lead { color: rgba(250, 247, 241, 0.7); }
+
+  .campaign-demo {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 0.85fr 60px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .campaign-input {
+    background: rgba(250, 247, 241, 0.05);
+    border: 1px dashed rgba(250, 247, 241, 0.2);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .campaign-input-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 241, 0.55);
+    margin-bottom: 16px; display: block;
+  }
+  .campaign-input-text {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--bg); line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .campaign-input-meta {
+    margin-top: 18px;
+    font-size: 12px;
+    color: rgba(250, 247, 241, 0.5);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+  .campaign-arrow {
+    text-align: center;
+    color: var(--concierge);
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    line-height: 1;
+  }
+  .campaign-arrow span {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: rgba(250, 247, 241, 0.5);
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .campaign-output {
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 16px;
+    padding: 22px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .campaign-output-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+  .campaign-output-msg {
+    background: #DCF8C6;
+    padding: 12px 14px;
+    border-radius: 12px 12px 12px 4px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .campaign-output-meta {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px dashed var(--hairline);
+    font-size: 12px;
+    color: var(--smoke);
+  }
+  .campaign-output-segment {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  /* CHANNELS */
+  section.channels { padding: 110px 0; }
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .channel {
+    padding: 32px;
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    display: flex; flex-direction: column; gap: 14px;
+    background: var(--paper);
+  }
+  .channel-icon {
+    width: 44px; height: 44px;
+    background: var(--bg-warm);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 22px; color: var(--concierge);
+    margin-bottom: 8px;
+  }
+  .channel h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+  .channel p { font-size: 14px; color: var(--ink-soft); }
+
+  /* JOURNEY */
+  section.journey { padding: 110px 0; background: var(--bg-warm); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .journey-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 30px;
+  }
+  .journey-step {
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--paper);
+  }
+  .journey-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--concierge);
+    letter-spacing: 0.18em;
+  }
+  .journey-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 400;
+    color: var(--ink); letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .journey-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ROI */
+  section.roi { padding: 110px 0; }
+  .roi-grid {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 60px; align-items: start;
+  }
+  .roi-inputs {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 30px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .roi-field { display: flex; flex-direction: column; gap: 10px; }
+  .roi-field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--smoke);
+    display: flex; justify-content: space-between;
+  }
+  .roi-field label .val {
+    font-family: 'Fraunces', serif;
+    font-size: 17px; color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .roi-field input[type=range] { width: 100%; accent-color: var(--concierge); }
+  .roi-output {
+    background: var(--ink); color: var(--bg);
+    border-radius: 16px; padding: 36px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .roi-output-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(250, 247, 241, 0.12);
+  }
+  .roi-output-row:last-of-type { border-bottom: none; padding-top: 12px; margin-top: 6px; }
+  .roi-output-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 241, 0.65);
+    max-width: 60%;
+  }
+  .roi-output-value {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; font-weight: 400;
+    letter-spacing: -0.025em; color: var(--bg);
+  }
+  .roi-output-row.total .roi-output-value { font-size: 46px; color: var(--concierge); }
+  .roi-note { font-size: 12px; color: rgba(250, 247, 241, 0.55); line-height: 1.5; margin-top: 8px; }
+
+  /* CASES */
+  section.cases { padding: 110px 0; background: var(--bg-warm); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .case-card {
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    background: var(--paper);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .case-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -20px rgba(20, 24, 31, 0.18); }
+  .case-image { aspect-ratio: 16 / 10; position: relative; overflow: hidden; }
+  .case-image.lago { background: linear-gradient(160deg, #1f3a4d, #2e5970 60%, #6a90a3); }
+  .case-image.villa { background: linear-gradient(160deg, #8e5a3a, #c08b5e 60%, #e5c19b); }
+  .case-image.palasiet { background: linear-gradient(160deg, #4a6b5e, #7fa093 60%, #b6cdc0); }
+  .case-image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.4)); }
+  .case-label {
+    position: absolute; bottom: 18px; left: 22px; z-index: 2;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .case-body { padding: 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .case-name { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.015em; line-height: 1.15; }
+  .case-desc { color: var(--ink-soft); font-size: 14px; line-height: 1.5; }
+  .case-stack {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px dashed var(--hairline);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--smoke);
+  }
+
+  /* DIFFERENT */
+  section.different { padding: 110px 0; background: var(--bg); }
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .diff-card {
+    padding: 32px;
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    background: var(--paper);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .diff-card .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--concierge);
+    letter-spacing: 0.18em; margin-bottom: 8px;
+  }
+  .diff-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 23px; font-weight: 400;
+    letter-spacing: -0.015em; line-height: 1.15;
+  }
+  .diff-card p { color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
+
+  /* PRICING */
+  section.pricing { padding: 110px 0; background: var(--bg-warm); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .plan {
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 32px;
+    background: var(--paper);
+    display: flex; flex-direction: column; gap: 18px;
+    position: relative;
+  }
+  .plan.featured { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+  .plan.featured .plan-name, .plan.featured .plan-price-num, .plan.featured h4 { color: var(--bg); }
+  .plan.featured .plan-desc, .plan.featured .plan-features li { color: rgba(250, 247, 241, 0.75); }
+  .plan.featured .plan-price-suffix { color: rgba(250, 247, 241, 0.6); }
+  .plan-badge {
+    position: absolute; top: -12px; left: 32px;
+    background: var(--concierge); color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .plan-name { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 400; letter-spacing: -0.015em; }
+  .plan-desc { font-size: 14px; color: var(--ink-soft); }
+  .plan-price {
+    display: flex; align-items: baseline; gap: 6px;
+    padding: 10px 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .plan.featured .plan-price { border-top-color: rgba(250, 247, 241, 0.15); border-bottom-color: rgba(250, 247, 241, 0.15); }
+  .plan-price-prefix { font-size: 13px; color: var(--smoke); }
+  .plan.featured .plan-price-prefix { color: rgba(250, 247, 241, 0.55); }
+  .plan-price-num {
+    font-family: 'Fraunces', serif;
+    font-size: 44px; font-weight: 400; letter-spacing: -0.03em;
+  }
+  .plan-price-suffix { font-size: 14px; color: var(--smoke); }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .plan-features li {
+    font-size: 14px; color: var(--ink-soft);
+    padding-left: 20px; position: relative;
+  }
+  .plan-features li::before {
+    content: "✓"; position: absolute; left: 0;
+    color: var(--concierge); font-weight: 600;
+  }
+  .plan .btn { width: 100%; justify-content: center; }
+  .plan-note { font-size: 11px; color: var(--smoke); text-align: center; line-height: 1.4; }
+  .plan.featured .plan-note { color: rgba(250, 247, 241, 0.5); }
+
+  /* FAQ */
+  section.faq { padding: 110px 0; }
+  .faq-list {
+    display: flex; flex-direction: column;
+    max-width: 820px; margin: 50px auto 0;
+  }
+  details.faq-item {
+    border-top: 1px solid var(--hairline);
+    padding: 22px 0;
+  }
+  details.faq-item:last-child { border-bottom: 1px solid var(--hairline); }
+  details.faq-item summary {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(18px, 1.9vw, 22px);
+    font-weight: 400; letter-spacing: -0.01em;
+    cursor: pointer; list-style: none;
+    display: flex; justify-content: space-between;
+    align-items: baseline; gap: 20px;
+  }
+  details.faq-item summary::-webkit-details-marker { display: none; }
+  details.faq-item summary::after {
+    content: "+";
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px; color: var(--concierge);
+  }
+  details.faq-item[open] summary::after { content: "−"; }
+  details.faq-item p {
+    margin-top: 12px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 680px;
+    line-height: 1.6;
+  }
+
+  /* CTA */
+  section.cta-final {
+    padding: 130px 0;
+    background: var(--ink);
+    color: var(--bg);
+    text-align: center;
+  }
+  .cta-final .lead { color: rgba(250, 247, 241, 0.75); margin: 22px auto 36px; max-width: 560px; }
+  .cta-final .btn-primary { background: var(--concierge); color: white; }
+  .cta-final .btn-primary:hover { background: var(--bg); color: var(--ink); }
+
+  /* Footer */
+  footer {
+    background: var(--ink);
+    color: rgba(250, 247, 241, 0.6);
+    padding: 40px 0 36px;
+    border-top: 1px solid rgba(250, 247, 241, 0.08);
+    font-size: 13px;
+  }
+  .foot-grid {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 30px; flex-wrap: wrap;
+  }
+  .foot-grid a { color: rgba(250, 247, 241, 0.65); text-decoration: none; margin-left: 22px; }
+  .foot-grid a:hover { color: var(--bg); }
+
+  /* Responsive */
+  @media (max-width: 1020px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 960px) {
+    .hero-grid, .roi-grid, .campaign-demo { grid-template-columns: 1fr; gap: 40px; }
+    .campaign-arrow { transform: rotate(90deg); }
+    .channels-grid, .case-grid, .diff-grid, .pricing-grid, .hotels-grid { grid-template-columns: 1fr; }
+    .journey-row { grid-template-columns: 1fr 1fr; }
+    .container { padding: 0 22px; }
+    nav.top .nav-links { display: none; }
+    section.hero { padding: 40px 0 60px; }
+    section.pillars, section.channels, section.cases, section.different, section.pricing, section.roi, section.journey, section.campaigns { padding: 70px 0; }
+    .hero-meta { grid-template-columns: 1fr; gap: 14px; }
+  }
+  @media (max-width: 540px) {
+    .journey-row { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="disclaimer">
-    <strong>Aviso académico:</strong> AI-Visible es un directorio experimental desarrollado como Trabajo Final de Máster en IA (Nuclio Digital School, 2026). Los negocios listados pueden ser ficticios y forman parte de un estudio sobre visibilidad de negocios locales en modelos de lenguaje.
+<!-- NAV -->
+<nav class="top">
+  <div class="container inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">C</span>
+      ConciergeIA
+    </a>
+    <ul class="nav-links">
+      <li><a href="#producto">Producto</a></li>
+      <li><a href="#roi">Calculadora</a></li>
+      <li><a href="#casos">Casos</a></li>
+      <li><a href="/pricing">Planes</a></li>
+    </ul>
+    <a href="#cta" class="btn btn-primary btn-sm">Agendar demo</a>
   </div>
+</nav>
 
-  <h1>AI-Visible</h1>
-  <p class="lead">Directorio de fichas de negocio optimizadas para modelos de lenguaje conversacionales. El objetivo: medir y mejorar cuándo un negocio aparece en respuestas de ChatGPT, Perplexity o Claude.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-eyebrow eyebrow-mark">
+        <span class="eyebrow">Para hoteles independientes</span>
+      </div>
+      <h1 class="display display-xl hero-title">
+        Más facturación por huésped.<br><em>Menos llamadas en recepción.</em>
+      </h1>
+      <p class="lead hero-lead">
+        ConciergeIA es el agente IA que vende los servicios de tu hotel, resuelve
+        las dudas de tus huéspedes y les recomienda planes a medida —en WhatsApp y email—
+        sin sumar trabajo a tu equipo.
+      </p>
+      <div class="hero-ctas">
+        <a href="#cta" class="btn btn-primary">Agendar una demo →</a>
+        <a href="#producto" class="btn btn-ghost">Ver cómo funciona</a>
+      </div>
+      <div class="hero-meta">
+        <div>
+          <div class="item-value">Boutique · Resort · Wellness</div>
+          <div class="item-label">Tres tipos de hospitality ya operando</div>
+        </div>
+        <div>
+          <div class="item-value">WhatsApp · Email</div>
+          <div class="item-label">Una conversación, dos canales</div>
+        </div>
+        <div>
+          <div class="item-value">Multi-idioma</div>
+          <div class="item-label">Responde en el idioma del huésped</div>
+        </div>
+      </div>
+    </div>
 
-  <h2>Asesorías</h2>
+    <div class="chat-card">
+      <div class="chat-header">
+        <div class="chat-avatar">L</div>
+        <div class="chat-meta-text">
+          <span class="chat-meta-name">Lago Resort Menorca</span>
+          <span class="chat-meta-status">En línea</span>
+        </div>
+        <span class="chat-room">Hab · 312</span>
+      </div>
+      <div class="chat-body">
+        <div class="msg in">
+          Hola, ¿a qué hora abre el spa los domingos?
+          <span class="msg-time">10:42</span>
+        </div>
+        <div class="msg out">
+          Buenos días Carla. El spa abre los domingos de 10 a 20h.
+          <span class="msg-time">10:42</span>
+        </div>
+        <div class="msg in">
+          ¿Tengo que reservar?
+          <span class="msg-time">10:43</span>
+        </div>
+        <div class="msg out">
+          Sí, recomendado. Hoy quedan huecos a las 11h, 12h y 17h. ¿Te reservo alguno?
+          <span class="msg-time">10:43</span>
+        </div>
+        <div class="msg in">
+          A las 17h.
+          <span class="msg-time">10:44</span>
+        </div>
+        <div class="msg out">
+          Reservado: spa hoy 17h, Carla Mendoza (Hab. 312). Te aviso una hora antes.
+          <span class="msg-time">10:44</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <a class="ficha" href="/asesorias/velez-romero.html">
-    <h3>Asesoría Vélez & Romero</h3>
-    <p>Gestoría fiscal-laboral en Madrid (Chamberí) especializada en autónomos extranjeros y nómadas digitales. Atención en español, inglés y francés.</p>
-  </a>
+<!-- HOTELS BAND -->
+<section class="hotels-band">
+  <div class="container">
+    <div class="hotels-label">
+      <span class="eyebrow">Algunos de los hoteles que ya operan con ConciergeIA</span>
+    </div>
+    <div class="hotels-grid">
+      <div class="hotel-tile">
+        <span class="hotel-cat">Hotel Boutique</span>
+        <span class="hotel-name">Villa Chiquita</span>
+        <span class="hotel-loc">Mallorca</span>
+      </div>
+      <div class="hotel-tile">
+        <span class="hotel-cat">Hotel Resort</span>
+        <span class="hotel-name">Lago Resort Menorca</span>
+        <span class="hotel-loc">Menorca · 4 propiedades</span>
+      </div>
+      <div class="hotel-tile">
+        <span class="hotel-cat">Centro Wellness</span>
+        <span class="hotel-name">Palasiet</span>
+        <span class="hotel-loc">Castellón · Talasoterapia</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <h2>Sobre el proyecto</h2>
-  <p>AI-Visible nace como caso de estudio del Máster en IA Business & Innovation de Nuclio Digital School. La hipótesis de trabajo: una ficha bien estructurada (descripción canónica, schema.org, Q&A optimizado) aumenta la probabilidad de que un negocio sea citado por un modelo de lenguaje en respuestas conversacionales. El experimento mide esa hipótesis con datos cuantitativos comparando visibilidad antes y después de publicar la ficha.</p>
+<!-- PILLARS -->
+<section class="pillars" id="producto">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-mark">El producto</span>
+      <h2 class="display display-lg">Tres cosas. <em>Hechas en serio.</em></h2>
+      <p class="lead">
+        ConciergeIA no es un chatbot más. Es un agente IA que hace tres cosas para tu hotel:
+        vender lo que ofreces, atender las dudas de los huéspedes y recomendar planes a medida
+        que mezclan tu hotel con su entorno.
+      </p>
+    </div>
 
-  <footer>
-    AI-Visible · Directorio experimental · TFM Nuclio Digital School 2026
-  </footer>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <span class="pillar-tag">01 — Vende</span>
+        <h3>Comunicaciones pre-llegada que tu hotel decide.</h3>
+        <p>
+          Tú defines qué se ofrece y a quién: desayuno a los que reservan sin él, traslado a
+          los que vienen del aeropuerto, late check-out a los que se van tarde. ConciergeIA
+          redacta el mensaje, lo personaliza al huésped y lo envía en el momento.
+        </p>
+        <div class="pillar-chat">
+          <div class="msg out">Hola Carla, soy el asistente de Lago Resort. Faltan tres días para tu llegada.</div>
+          <div class="msg out">Veo que tu reserva no incluye desayuno. Si lo añades ahora, te queda en 14 € por persona y noche (18 € desde recepción). ¿Lo añado?</div>
+          <div class="msg in">Sí, para los dos.</div>
+          <div class="msg out">Hecho. Desayuno × 2 personas × 4 noches. 112 € a la factura final.</div>
+        </div>
+        <div class="pillar-stats">
+          <div>
+            <div class="stat-num">3-8%</div>
+            <div class="stat-lbl">Conversión típica del upsell pre-llegada</div>
+          </div>
+          <div>
+            <div class="stat-num">25-80€</div>
+            <div class="stat-lbl">Valor medio del upsell capturado</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <span class="pillar-tag">02 — Atiende</span>
+        <h3>Las veinte preguntas de cada día.</h3>
+        <p>
+          Horarios, parking, wifi, política de mascotas, restaurantes cerca, cómo llegar
+          desde el aeropuerto. Las preguntas que hoy ocupan a tu recepción quedan resueltas
+          en segundos, sin que nadie levante el teléfono.
+        </p>
+        <div class="pillar-chat">
+          <div class="msg in">¿El parking está incluido?</div>
+          <div class="msg out">El parking exterior está incluido en todas las habitaciones. Si necesitas garaje cubierto son 12 € la noche y queda hueco para hoy. ¿Te lo reservo?</div>
+          <div class="msg in">Sí, gracias.</div>
+          <div class="msg out">Reservado: garaje cubierto, esta noche. 12 € a la habitación.</div>
+        </div>
+        <div class="pillar-stats">
+          <div>
+            <div class="stat-num">2-4 min</div>
+            <div class="stat-lbl">Tiempo medio ahorrado por consulta resuelta</div>
+          </div>
+          <div>
+            <div class="stat-num">24/7</div>
+            <div class="stat-lbl">Disponibilidad sin coste extra de personal</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <span class="pillar-tag">03 — Recomienda</span>
+        <h3>Planes a medida del huésped, no listas genéricas.</h3>
+        <p>
+          El huésped te cuenta qué le apetece. ConciergeIA diseña el plan combinando
+          lo de fuera (rutas, restaurantes, visitas) con lo de tu hotel (spa, cena,
+          experiencias). El upsell entra natural, en el contexto del plan.
+        </p>
+        <div class="pillar-chat">
+          <div class="msg in">Somos pareja, nos gusta la aventura pero también desconectar. Llegamos mañana.</div>
+          <div class="msg out">Plan para tu día completo:
+· Mañana: Camí de Cavalls (Cala Galdana → Cala Mitjana). 2h, costa espectacular.
+· Comida: Sa Caleta, pescado a pie de cala.
+· 18h: masaje en pareja en nuestro spa, 60 min, 95 € (en lugar de 120 € por ser huéspedes). ¿Te lo bloqueo?</div>
+          <div class="msg in">Sí, los dos.</div>
+        </div>
+        <div class="pillar-stats">
+          <div>
+            <div class="stat-num">Tu hotel</div>
+            <div class="stat-lbl">+ su entorno, en un solo plan</div>
+          </div>
+          <div>
+            <div class="stat-num">Tu voz</div>
+            <div class="stat-lbl">El bot habla como tu hotel, no genérico</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPAIGNS IA -->
+<section class="campaigns">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-mark">Capacidad extra</span>
+      <h2 class="display display-lg">Campañas que escribes <em>en treinta segundos.</em></h2>
+      <p class="lead">
+        Una frase tuya de marketing → un mensaje completo, segmentado a los huéspedes alojados
+        ahora mismo. Sin diseñador, sin esperar a marketing, sin tener que pensar el copy.
+      </p>
+    </div>
+
+    <div class="campaign-demo">
+      <div class="campaign-input">
+        <span class="campaign-input-label">Tú escribes</span>
+        <div class="campaign-input-text">"Happy Hour 18-20h, 2×1 en cócteles de la terraza"</div>
+        <div class="campaign-input-meta">19:34 · Hoy</div>
+      </div>
+      <div class="campaign-arrow">
+        ⟶
+        <span>ConciergeIA redacta y segmenta</span>
+      </div>
+      <div class="campaign-output">
+        <span class="campaign-output-label">Mensaje enviado</span>
+        <div class="campaign-output-msg">
+          Hola Carla. Hoy de 18 a 20h tenemos Happy Hour en la terraza —2×1 en cócteles
+          de autor. ¿Te subimos uno?
+        </div>
+        <div class="campaign-output-meta">
+          <span>WhatsApp</span>
+          <span class="campaign-output-segment">47 huéspedes alojados</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHANNELS -->
+<section class="channels">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-mark">Canales</span>
+      <h2 class="display display-lg">WhatsApp, email, web. <em>Una sola conversación.</em></h2>
+      <p class="lead">
+        Donde estén tus huéspedes, ConciergeIA está. Pero la conversación es una, no tres silos:
+        el bot recuerda qué se dijo en email cuando responde en WhatsApp.
+      </p>
+    </div>
+
+    <div class="channels-grid">
+      <div class="channel">
+        <div class="channel-icon">✦</div>
+        <h4>WhatsApp</h4>
+        <p>
+          El canal donde están tus huéspedes ahora mismo. Número propio de tu hotel,
+          plantillas Meta certificadas con tu marca, multi-idioma nativo.
+        </p>
+      </div>
+      <div class="channel">
+        <div class="channel-icon">✦</div>
+        <h4>Email</h4>
+        <p>
+          Donde tu sistema ya manda confirmaciones, ahora con IA respondiendo a las
+          réplicas del huésped. Confirmaciones formales, recordatorios, post-stay.
+        </p>
+      </div>
+      <div class="channel">
+        <div class="channel-icon">✦</div>
+        <h4>Widget web</h4>
+        <p>
+          Captación conversacional antes de la reserva: el visitante pregunta tarifas,
+          servicios y disponibilidad, el bot le contesta y captura el lead.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-mark">El recorrido del huésped</span>
+      <h2 class="display display-lg">Cinco momentos. <em>Una sola conversación.</em></h2>
+      <p class="lead">
+        ConciergeIA acompaña al huésped desde la reserva hasta el post-stay,
+        sin interrupciones entre canales ni entre fases.
+      </p>
+    </div>
+    <div class="journey-row">
+      <div class="journey-step">
+        <span class="journey-num">001 / RESERVA</span>
+        <span class="journey-title">Confirmación con personalidad</span>
+        <span class="journey-desc">Bienvenida real desde el primer minuto. No un email automático que nadie abre.</span>
+      </div>
+      <div class="journey-step">
+        <span class="journey-num">002 / PRE-LLEGADA</span>
+        <span class="journey-title">Upsell + info, antes de que pregunten</span>
+        <span class="journey-desc">Desayuno, traslado, late check-out. Y cómo llegar, dónde aparcar, qué traer.</span>
+      </div>
+      <div class="journey-step">
+        <span class="journey-num">003 / ESTANCIA</span>
+        <span class="journey-title">El conserje 24/7</span>
+        <span class="journey-desc">Resuelve dudas, recomienda planes, gestiona peticiones, pasa al equipo cuando hace falta.</span>
+      </div>
+      <div class="journey-step">
+        <span class="journey-num">004 / SALIDA</span>
+        <span class="journey-title">Check-out sin colas</span>
+        <span class="journey-desc">Recogida de equipaje, factura, transporte, valoración. Sin colapsar recepción.</span>
+      </div>
+      <div class="journey-step">
+        <span class="journey-num">005 / POST-STAY</span>
+        <span class="journey-title">Volver antes de que olviden</span>
+        <span class="journey-desc">Campañas a tu base real de huéspedes, no a listas compradas.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI CALCULATOR -->
+<section class="roi" id="roi">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-mark">Calculadora de impacto</span>
+      <h2 class="display display-lg">¿Cuánto vale ConciergeIA <em>en tu hotel?</em></h2>
+      <p class="lead">
+        Estimación basada en datos de nuestros hoteles operativos en 2026. Mueve los valores
+        para ver el impacto en upsell capturado y horas ahorradas a tu equipo.
+      </p>
+    </div>
+
+    <div class="roi-grid">
+      <div class="roi-inputs">
+        <div class="roi-field">
+          <label>
+            <span>Habitaciones</span>
+            <span class="val" id="rooms-val">60</span>
+          </label>
+          <input type="range" id="rooms" min="20" max="300" value="60">
+        </div>
+        <div class="roi-field">
+          <label>
+            <span>Ocupación media</span>
+            <span class="val" id="occ-val">70%</span>
+          </label>
+          <input type="range" id="occ" min="30" max="95" value="70">
+        </div>
+        <div class="roi-field">
+          <label>
+            <span>ADR — Tarifa media por noche</span>
+            <span class="val" id="adr-val">180€</span>
+          </label>
+          <input type="range" id="adr" min="60" max="600" step="10" value="180">
+        </div>
+      </div>
+
+      <div class="roi-output">
+        <div class="roi-output-row">
+          <span class="roi-output-label">Huéspedes estimados / mes</span>
+          <span class="roi-output-value" id="out-guests">1.260</span>
+        </div>
+        <div class="roi-output-row">
+          <span class="roi-output-label">Upsell capturado / mes</span>
+          <span class="roi-output-value" id="out-upsell">€2.520</span>
+        </div>
+        <div class="roi-output-row">
+          <span class="roi-output-label">Horas ahorradas a recepción / mes</span>
+          <span class="roi-output-value" id="out-hours">63h</span>
+        </div>
+        <div class="roi-output-row total">
+          <span class="roi-output-label">Impacto total estimado / mes</span>
+          <span class="roi-output-value" id="out-total">€3.465</span>
+        </div>
+        <p class="roi-note">
+          Conversión upsell asumida del 5% sobre huéspedes alojados, valor medio 40 € por
+          venta. 3 minutos ahorrados por consulta resuelta por IA, valorados a 15 €/h.
+          Cifras orientativas — el dato real depende de tu mix de servicios y operativa.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases" id="casos">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-mark">Una muestra de nuestros casos</span>
+      <h2 class="display display-lg">Algunos hoteles, <em>distintos modos de usarlo.</em></h2>
+    </div>
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-image villa">
+          <span class="case-label">Hotel Boutique</span>
+        </div>
+        <div class="case-body">
+          <h3 class="case-name">Villa Chiquita</h3>
+          <p class="case-desc">
+            Boutique premium en Mallorca. Conserje Completo con integración Mews,
+            WhatsApp y email — journey de huésped completo, desde reserva hasta post-stay.
+          </p>
+          <div class="case-stack">Conserje Completo · Mews</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-image lago">
+          <span class="case-label">Hotel Resort</span>
+        </div>
+        <div class="case-body">
+          <h3 class="case-name">Lago Resort Menorca</h3>
+          <p class="case-desc">
+            Resort estacional con cuatro propiedades en Menorca. Conserje Web para
+            captación conversacional y resolución de dudas pre-reserva.
+          </p>
+          <div class="case-stack">Conserje Web · 4 propiedades</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-image palasiet">
+          <span class="case-label">Centro Wellness</span>
+        </div>
+        <div class="case-body">
+          <h3 class="case-name">Palasiet</h3>
+          <p class="case-desc">
+            Centro de talasoterapia premium en Castellón. Conserje Web para captación
+            conversacional desde su página de tratamientos.
+          </p>
+          <div class="case-stack">Conserje Web · Wellness</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENT -->
+<section class="different">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-mark">Cómo trabajamos</span>
+      <h2 class="display display-lg">Lo que prometemos <em>lo enseñamos por escrito.</em></h2>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="num">01</div>
+        <h3>Encima de tu PMS, no dentro.</h3>
+        <p>
+          Nos conectamos a tu PMS por lectura. No escribimos en él, no lo modificamos,
+          no rompemos nada. Lo que pasa en tu PMS sigue siendo de tu PMS.
+          Lo que pasa en WhatsApp y email, lo gestionamos nosotros.
+        </p>
+      </div>
+      <div class="diff-card">
+        <div class="num">02</div>
+        <h3>Empezamos contigo en dos semanas.</h3>
+        <p>
+          Setup hecho por nuestro equipo, no por el tuyo. Tú nos das la información del
+          hotel, nosotros configuramos plantillas, voz y journey. Recibes el producto
+          funcionando, no instrucciones de configuración.
+        </p>
+      </div>
+      <div class="diff-card">
+        <div class="num">03</div>
+        <h3>Conversaciones reales, no flows rígidos.</h3>
+        <p>
+          La IA conversa de verdad: entiende contexto, recuerda lo dicho, encadena frases.
+          Sin botones obligatorios ni menús estructurados. Es la diferencia entre un
+          chatbot tradicional y un agente IA.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-mark">Planes</span>
+      <h2 class="display display-lg">Tres planes. <em>Sin sorpresas en la factura.</em></h2>
+      <p class="lead">
+        El plan se elige por tipo de hotel y nivel de profundidad, no por número de funciones.
+        Costes de envío de Meta (plantillas WhatsApp) no incluidos — se pagan directo a Meta.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-name">Conserje Web</div>
+        <p class="plan-desc">Captación conversacional pre-reserva desde tu web. El primer paso, sin tocar tu PMS.</p>
+        <div class="plan-price">
+          <span class="plan-price-prefix">Desde</span>
+          <span class="plan-price-num">80€</span>
+          <span class="plan-price-suffix">/ mes</span>
+        </div>
+        <ul class="plan-features">
+          <li>Widget WhatsApp en tu web</li>
+          <li>Knowledge base del hotel (multi-idioma)</li>
+          <li>Captura de leads en tu CRM</li>
+          <li>Dashboard de conversaciones</li>
+          <li>Toma humana por tu equipo en cualquier momento</li>
+          <li>Setup en una semana</li>
+        </ul>
+        <a href="#cta" class="btn btn-ghost">Empezar aquí</a>
+        <p class="plan-note">Sin integración PMS · Sin journey post-reserva</p>
+      </div>
+
+      <div class="plan featured">
+        <span class="plan-badge">Recomendado</span>
+        <div class="plan-name">Conserje Completo</div>
+        <p class="plan-desc">El producto entero. Vende, atiende y recomienda durante todo el recorrido del huésped, en WhatsApp y email.</p>
+        <div class="plan-price">
+          <span class="plan-price-prefix">Desde</span>
+          <span class="plan-price-num">290€</span>
+          <span class="plan-price-suffix">/ mes</span>
+        </div>
+        <ul class="plan-features">
+          <li>Todo lo del Conserje Web</li>
+          <li>Integración con tu PMS</li>
+          <li>Número de WhatsApp propio</li>
+          <li>Gestión de plantillas Meta (alta y certificación)</li>
+          <li>Email gestionado por IA</li>
+          <li>Journey completo (5 fases)</li>
+          <li>Upsell pre-llegada y estancia automatizado</li>
+          <li>Recomendaciones de planes a medida (hotel + entorno)</li>
+          <li>Campañas IA en tiempo real (Happy Hour, ofertas flash)</li>
+        </ul>
+        <a href="#cta" class="btn btn-primary" style="background:var(--concierge)">Agendar demo →</a>
+        <p class="plan-note">Setup único + recurrente. Sin permanencia oculta.</p>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">Resort &amp; Cadenas</div>
+        <p class="plan-desc">Multi-propiedad, integraciones a medida, SLA dedicado.</p>
+        <div class="plan-price">
+          <span class="plan-price-prefix"></span>
+          <span class="plan-price-num">Hablamos</span>
+          <span class="plan-price-suffix"></span>
+        </div>
+        <ul class="plan-features">
+          <li>Todo lo del Conserje Completo</li>
+          <li>Multi-propiedad en una consola</li>
+          <li>Integraciones custom</li>
+          <li>SLA de soporte dedicado</li>
+          <li>Onboarding por propiedad</li>
+          <li>Tarifa por habitación o flat según volumen</li>
+        </ul>
+        <a href="#cta" class="btn btn-ghost">Contacto comercial</a>
+        <p class="plan-note">Pricing a medida según volumen y complejidad</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container-narrow">
+    <div class="section-head" style="text-align:center; margin:0 auto;">
+      <span class="eyebrow eyebrow-mark" style="justify-content:center">Preguntas frecuentes</span>
+      <h2 class="display display-lg" style="margin-top:18px">Lo que nos preguntan <em>en cada demo.</em></h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>¿Qué pasa cuando la IA no sabe qué responder?</summary>
+        <p>Pasa la conversación a tu equipo inmediatamente, en la misma sala de WhatsApp o
+        email, sin perder contexto. El huésped no nota el cambio, tu equipo recibe la
+        conversación con todo el historial.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿El upsell del bot interfiere con la venta de mi equipo de recepción?</summary>
+        <p>No. El bot propone lo que tú decides que proponga. Si quieres que venda desayuno y
+        spa pero no restaurante, lo configuras. Si quieres que escale ciertos servicios a
+        recepción para venta personal, también. Tú decides el reparto.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Cuánto tarda la implementación?</summary>
+        <p>Conserje Web: una semana. Conserje Completo: entre dos y cuatro semanas según la
+        integración con tu PMS. Te damos calendario concreto en la demo, con fechas.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Funciona en varios idiomas?</summary>
+        <p>Sí. La IA detecta el idioma del huésped y responde en el mismo. Español, inglés,
+        alemán, francés, italiano incluidos por defecto. Si necesitas otro, lo añadimos.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Dónde se alojan los datos y cómo afecta a nuestro PMS?</summary>
+        <p>Los datos de las conversaciones se alojan en servidores europeos (Frankfurt y
+        Dublín). Nos conectamos a tu PMS solo por lectura — no escribimos, no modificamos,
+        no rompemos nada. Antes de empezar firmamos el contrato de encargo del tratamiento
+        estándar AEPD.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Hablamos directamente con Meta o lo gestionáis vosotros?</summary>
+        <p>Lo gestionamos nosotros: alta de número, plantillas, certificación de marca. Los
+        costes de envío de WhatsApp los paga el hotel directamente a Meta. Te enseñamos
+        cómo dimensionarlo en la demo.</p>
+      </details>
+      <details class="faq-item">
+        <summary>¿Mi equipo tiene que aprender una herramienta nueva?</summary>
+        <p>Una pantalla web donde ven las conversaciones activas y pueden intervenir.
+        Formación en una hora. No sustituye a tu PMS, vive al lado.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="cta">
+  <div class="container">
+    <h2 class="display display-lg">
+      Treinta minutos. <em>Sin diapositivas.</em>
+    </h2>
+    <p class="lead">
+      En la demo te enseñamos una cuenta real, con conversaciones reales, y te decimos
+      en qué encaja con tu hotel y en qué no. Sin compromisos.
+    </p>
+    <a href="mailto:hola@conciergeia.ai" class="btn btn-primary">Agendar una demo →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container foot-grid">
+    <div>
+      <a href="#" class="logo" style="color:var(--bg)">
+        <span class="logo-mark">C</span>
+        ConciergeIA
+      </a>
+    </div>
+    <div>
+      © 2026 Rayco Sales SL · Synaptim Labs
+      <a href="/privacy">Privacidad</a>
+      <a href="/terms">Términos</a>
+      <a href="mailto:hola@conciergeia.ai">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const rooms = document.getElementById('rooms');
+  const occ = document.getElementById('occ');
+  const adr = document.getElementById('adr');
+  const roomsVal = document.getElementById('rooms-val');
+  const occVal = document.getElementById('occ-val');
+  const adrVal = document.getElementById('adr-val');
+  const outGuests = document.getElementById('out-guests');
+  const outUpsell = document.getElementById('out-upsell');
+  const outHours = document.getElementById('out-hours');
+  const outTotal = document.getElementById('out-total');
+
+  const UPSELL_CONV = 0.05;
+  const UPSELL_VALUE = 40;
+  const MIN_SAVED_PER_GUEST = 3;
+  const HOURLY_VALUE = 15;
+
+  function fmt(n) { return new Intl.NumberFormat('es-ES').format(Math.round(n)); }
+  function fmtEUR(n) { return '€' + fmt(n); }
+
+  function calc() {
+    const r = parseInt(rooms.value);
+    const o = parseInt(occ.value) / 100;
+    const a = parseInt(adr.value);
+
+    const guests = Math.round(r * o * 30);
+    const upsell = Math.round(guests * UPSELL_CONV * UPSELL_VALUE);
+    const hours = Math.round(guests * MIN_SAVED_PER_GUEST / 60);
+    const opSaving = Math.round(hours * HOURLY_VALUE);
+    const total = upsell + opSaving;
+
+    roomsVal.textContent = r;
+    occVal.textContent = (o * 100).toFixed(0) + '%';
+    adrVal.textContent = a + '€';
+    outGuests.textContent = fmt(guests);
+    outUpsell.textContent = fmtEUR(upsell);
+    outHours.textContent = fmt(hours) + 'h';
+    outTotal.textContent = fmtEUR(total);
+  }
+
+  rooms.addEventListener('input', calc);
+  occ.addEventListener('input', calc);
+  adr.addEventListener('input', calc);
+  calc();
+</script>
 
 </body>
 </html>
