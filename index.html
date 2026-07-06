@@ -1,1397 +1,846 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ConciergeIA — Más facturación por huésped. Menos llamadas en recepción.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..800,30..100,0..1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI-Visible · El directorio de negocios para asistentes conversacionales</title>
+<meta name="description" content="AI-Visible es el directorio pensado para que los asistentes conversacionales (ChatGPT, Perplexity, Gemini, Claude) puedan encontrar y recomendar cualquier negocio local, con datos estructurados verificables y medición pública por motor." />
+<meta name="author" content="Rafael Corral Gómez, Agustín Rodríguez" />
+<link rel="canonical" href="https://ai-visible.app/" />
+
+<meta property="og:title" content="AI-Visible · El directorio de negocios para asistentes conversacionales" />
+<meta property="og:description" content="Publica tu negocio en un directorio diseñado para aparecer en las respuestas de ChatGPT, Perplexity, Gemini y Claude. Fichas estructuradas, medibles y verificables." />
+<meta property="og:url" content="https://ai-visible.app/" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_ES" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.5.0/dist/tabler-icons.min.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://ai-visible.app/#website",
+      "url": "https://ai-visible.app/",
+      "name": "AI-Visible",
+      "description": "Directorio de negocios locales optimizado para asistentes conversacionales basados en modelos de lenguaje. Cualquier negocio con presencia local puede publicar su ficha para ser recomendable en ChatGPT, Perplexity, Gemini y Claude.",
+      "inLanguage": "es-ES",
+      "publisher": { "@id": "https://ai-visible.app/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://ai-visible.app/#organization",
+      "name": "AI-Visible",
+      "alternateName": "AI Visible",
+      "url": "https://ai-visible.app/",
+      "description": "Proyecto académico desarrollado como Trabajo Final del Máster en IA de Nuclio Digital School. Diseña, publica y mide fichas estructuradas de negocios locales para asistentes conversacionales.",
+      "founder": [
+        { "@type": "Person", "name": "Rafael Corral Gómez" },
+        { "@type": "Person", "name": "Agustín Rodríguez" }
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://ai-visible.app/#collection",
+      "url": "https://ai-visible.app/",
+      "name": "Directorio de negocios AI-Visible",
+      "isPartOf": { "@id": "https://ai-visible.app/#website" },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://ai-visible.app/asesorias/velez-romero.html",
+            "name": "Asesoría Vélez & Romero"
+          }
+        ]
+      }
+    }
+  ]
+}
+</script>
+
 <style>
   :root {
-    --bg: #FAF7F1;
-    --bg-warm: #F4EFE3;
-    --ink: #14181F;
-    --ink-soft: #2A2F39;
-    --smoke: #6B6760;
-    --concierge: #C44A1E;
-    --concierge-dim: #A53C16;
-    --bottle: #2D4A3E;
-    --gold: #B8924A;
-    --hairline: #D9D3C5;
-    --paper: #FFFFFF;
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --surface-alt: #f4f3ee;
+    --border: #e5e3db;
+    --border-strong: #d4d1c7;
+    --text: #1c1c1a;
+    --text-secondary: #55554f;
+    --text-muted: #8a887f;
+    --accent: #4c3f8f;
+    --accent-bg: #ecebf7;
+    --accent-strong: #362b6b;
+    --warning-bg: #fef3c7;
+    --warning-text: #78500a;
+    --coming-bg: #f5f0e8;
+    --coming-text: #8a6a2f;
+    --radius: 8px;
+    --radius-card: 12px;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
   body {
     background: var(--bg);
-    color: var(--ink);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     font-size: 16px;
-    line-height: 1.55;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 24px;
   }
 
-  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
-  .container-narrow { max-width: 980px; margin: 0 auto; padding: 0 32px; }
-
-  .display {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 380;
-    font-variation-settings: "SOFT" 50, "WONK" 0, "opsz" 144;
-    letter-spacing: -0.025em;
-    line-height: 0.98;
+  /* Header */
+  .header {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
   }
-  .display-xl { font-size: clamp(46px, 6.4vw, 86px); }
-  .display-lg { font-size: clamp(34px, 4.2vw, 56px); }
-  .display-md { font-size: clamp(26px, 3vw, 38px); }
-  .display em {
-    font-style: italic;
-    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
-    color: var(--concierge);
-  }
-
-  .eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--smoke);
-    font-weight: 500;
-  }
-  .eyebrow-mark { display: inline-flex; align-items: center; gap: 12px; }
-  .eyebrow-mark::before { content: ""; width: 24px; height: 1px; background: var(--concierge); }
-
-  .lead {
-    font-size: clamp(17px, 1.5vw, 20px);
-    line-height: 1.55;
-    color: var(--ink-soft);
-    font-weight: 400;
-  }
-
-  /* Nav */
-  nav.top {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(250, 247, 241, 0.92);
-    backdrop-filter: saturate(180%) blur(8px);
-    border-bottom: 1px solid var(--hairline);
-  }
-  nav.top .inner {
-    display: flex; align-items: center; justify-content: space-between; height: 68px;
-  }
-  .logo {
-    font-family: 'Fraunces', serif;
-    font-size: 22px; font-weight: 500;
-    letter-spacing: -0.01em;
-    display: flex; align-items: center; gap: 10px;
-    color: var(--ink); text-decoration: none;
-  }
-  .logo-mark {
-    width: 28px; height: 28px;
-    background: var(--concierge);
-    border-radius: 6px;
-    display: inline-flex; align-items: center; justify-content: center;
-    color: white;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; font-weight: 600;
-  }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a {
-    color: var(--ink-soft); text-decoration: none;
-    font-size: 14px; font-weight: 500;
-    transition: color 0.15s;
-  }
-  .nav-links a:hover { color: var(--concierge); }
-
-  /* Buttons */
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 24px;
-    border-radius: 999px;
-    font-family: inherit;
-    font-size: 15px; font-weight: 500;
-    text-decoration: none;
-    transition: transform 0.15s, background 0.15s, border-color 0.15s;
-    cursor: pointer;
-    border: 1px solid transparent;
-    white-space: nowrap;
-  }
-  .btn-primary { background: var(--ink); color: var(--bg); }
-  .btn-primary:hover { background: var(--concierge); transform: translateY(-1px); }
-  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--hairline); }
-  .btn-ghost:hover { border-color: var(--ink); background: var(--bg-warm); }
-  .btn-sm { padding: 10px 18px; font-size: 14px; }
-
-  /* HERO */
-  section.hero { padding: 70px 0 90px; }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 70px; align-items: center;
-  }
-  .hero-eyebrow { margin-bottom: 26px; }
-  h1.hero-title { margin-bottom: 26px; }
-  .hero-lead { margin-bottom: 36px; max-width: 540px; }
-  .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
-  .hero-meta {
-    margin-top: 44px; padding-top: 26px;
-    border-top: 1px solid var(--hairline);
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
-  }
-  .hero-meta .item-value {
-    font-family: 'Fraunces', serif;
-    font-size: 22px; font-weight: 400;
-    color: var(--ink); letter-spacing: -0.015em;
-    margin-bottom: 4px;
-  }
-  .hero-meta .item-label { font-size: 12px; color: var(--smoke); line-height: 1.35; }
-
-  /* Chat card */
-  .chat-card {
-    background: var(--paper);
-    border-radius: 18px;
-    box-shadow: 0 1px 0 var(--hairline), 0 30px 60px -30px rgba(20, 24, 31, 0.18);
-    overflow: hidden;
-  }
-  .chat-header {
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--hairline);
-    display: flex; align-items: center; gap: 12px;
-  }
-  .chat-avatar {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--bottle), #4a6b5e);
-    color: white;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Fraunces', serif;
-    font-size: 16px; font-weight: 500;
-  }
-  .chat-meta-text { display: flex; flex-direction: column; line-height: 1.25; }
-  .chat-meta-name { font-weight: 600; font-size: 14px; color: var(--ink); }
-  .chat-meta-status { font-size: 11px; color: var(--smoke); display: flex; align-items: center; gap: 6px; }
-  .chat-meta-status::before { content: ""; width: 6px; height: 6px; background: #2ea043; border-radius: 50%; }
-  .chat-room {
-    margin-left: auto;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.12em;
-    color: var(--smoke); text-transform: uppercase;
-  }
-  .chat-body {
-    padding: 22px 18px;
-    background: radial-gradient(circle at 1px 1px, rgba(20,24,31,0.04) 1px, transparent 0);
-    background-size: 16px 16px;
-    background-color: #f7f2e8;
-    display: flex; flex-direction: column; gap: 10px;
-    min-height: 380px;
-  }
-  .msg {
-    max-width: 78%;
-    padding: 10px 14px;
-    border-radius: 14px;
-    font-size: 14px; line-height: 1.45;
-  }
-  .msg.in { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 0 rgba(20,24,31,0.05); }
-  .msg.out { background: #DCF8C6; align-self: flex-end; border-bottom-right-radius: 4px; }
-  .msg-time { font-size: 10px; color: var(--smoke); margin-top: 4px; display: block; }
-  .msg.out .msg-time { text-align: right; }
-  .msg .label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 0.1em;
-    color: var(--bottle); text-transform: uppercase;
-    margin-bottom: 4px; display: block;
-  }
-
-  /* Hotels band */
-  section.hotels-band { padding: 30px 0 80px; }
-  .hotels-label { text-align: center; margin-bottom: 32px; }
-  .hotels-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-  }
-  .hotel-tile {
-    border: 1px solid var(--hairline);
-    border-radius: 14px;
-    padding: 22px 24px;
-    background: var(--paper);
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .hotel-cat {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--concierge);
-    margin-bottom: 6px;
-  }
-  .hotel-name {
-    font-family: 'Fraunces', serif;
-    font-size: 22px; font-weight: 400;
-    letter-spacing: -0.015em; color: var(--ink);
-  }
-  .hotel-loc { font-size: 13px; color: var(--smoke); }
-
-  /* PILLARS — 3 columns now */
-  section.pillars {
-    padding: 110px 0;
-    background: var(--bg-warm);
-    border-top: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
-  }
-  .section-head { max-width: 720px; margin-bottom: 70px; }
-  .section-head .eyebrow { margin-bottom: 20px; display: inline-block; }
-  .section-head h2 { margin-bottom: 20px; }
-
-  .pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .pillar {
-    background: var(--paper);
-    border: 1px solid var(--hairline);
-    border-radius: 18px;
-    padding: 30px;
-    display: flex; flex-direction: column; gap: 16px;
-  }
-  .pillar-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--concierge);
-  }
-  .pillar h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 26px; font-weight: 400;
-    letter-spacing: -0.02em; line-height: 1.1;
-  }
-  .pillar p { color: var(--ink-soft); font-size: 14.5px; }
-  .pillar-chat {
-    margin-top: 4px;
-    background: #f7f2e8;
-    padding: 16px;
-    border-radius: 12px;
-    display: flex; flex-direction: column; gap: 8px;
-    border: 1px solid var(--hairline);
-  }
-  .pillar-chat .msg { font-size: 12.5px; max-width: 90%; padding: 8px 12px; }
-  .pillar-chat .msg.out { white-space: pre-line; }
-  .pillar-stats {
-    margin-top: auto;
-    padding-top: 18px;
-    border-top: 1px dashed var(--hairline);
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-  }
-  .stat-num {
-    font-family: 'Fraunces', serif;
-    font-size: 22px; font-weight: 400;
-    color: var(--ink); letter-spacing: -0.02em;
-  }
-  .stat-lbl { font-size: 11px; color: var(--smoke); line-height: 1.4; }
-
-  /* CAMPAIGNS IA */
-  section.campaigns {
-    padding: 110px 0;
-    background: var(--ink);
-    color: var(--bg);
-  }
-  section.campaigns .eyebrow { color: rgba(250, 247, 241, 0.55); }
-  section.campaigns .section-head h2 { color: var(--bg); }
-  section.campaigns .lead { color: rgba(250, 247, 241, 0.7); }
-
-  .campaign-demo {
-    margin-top: 50px;
-    display: grid;
-    grid-template-columns: 0.85fr 60px 1fr;
-    gap: 24px;
-    align-items: center;
-  }
-  .campaign-input {
-    background: rgba(250, 247, 241, 0.05);
-    border: 1px dashed rgba(250, 247, 241, 0.2);
-    border-radius: 16px;
-    padding: 28px;
-  }
-  .campaign-input-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(250, 247, 241, 0.55);
-    margin-bottom: 16px; display: block;
-  }
-  .campaign-input-text {
-    font-family: 'Fraunces', serif;
-    font-size: 22px; font-weight: 400;
-    color: var(--bg); line-height: 1.3;
-    letter-spacing: -0.01em;
-  }
-  .campaign-input-meta {
-    margin-top: 18px;
-    font-size: 12px;
-    color: rgba(250, 247, 241, 0.5);
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.08em;
-  }
-  .campaign-arrow {
-    text-align: center;
-    color: var(--concierge);
-    font-family: 'Fraunces', serif;
-    font-size: 32px;
-    line-height: 1;
-  }
-  .campaign-arrow span {
-    display: block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    color: rgba(250, 247, 241, 0.5);
-    text-transform: uppercase;
-    margin-top: 8px;
-  }
-  .campaign-output {
-    background: var(--paper);
-    color: var(--ink);
-    border-radius: 16px;
-    padding: 22px;
-    display: flex; flex-direction: column; gap: 14px;
-  }
-  .campaign-output-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--smoke);
-  }
-  .campaign-output-msg {
-    background: #DCF8C6;
-    padding: 12px 14px;
-    border-radius: 12px 12px 12px 4px;
-    font-size: 14px;
-    line-height: 1.45;
-    color: var(--ink);
-  }
-  .campaign-output-meta {
+  .header-inner {
     display: flex;
     justify-content: space-between;
-    padding-top: 12px;
-    border-top: 1px dashed var(--hairline);
-    font-size: 12px;
-    color: var(--smoke);
+    align-items: center;
   }
-  .campaign-output-segment {
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    color: var(--ink);
-    letter-spacing: -0.01em;
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .logo-mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: var(--text);
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+  }
+  .nav {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .nav a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero {
+    padding: 80px 0 40px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    padding: 5px 14px;
+    background: var(--accent-bg);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-size: 46px;
+    line-height: 1.1;
+    font-weight: 500;
+    margin: 0 auto 22px;
+    max-width: 800px;
+    letter-spacing: -0.02em;
+  }
+  .hero p {
+    color: var(--text-secondary);
+    font-size: 19px;
+    margin: 0 auto;
+    max-width: 620px;
   }
 
-  /* CHANNELS */
-  section.channels { padding: 110px 0; }
-  .channels-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+  /* Analogía */
+  .analogy {
+    padding: 40px 0 20px;
   }
-  .channel {
-    padding: 32px;
-    border: 1px solid var(--hairline);
-    border-radius: 16px;
-    display: flex; flex-direction: column; gap: 14px;
-    background: var(--paper);
+  .analogy-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    display: flex;
+    gap: 20px;
+    align-items: center;
   }
-  .channel-icon {
-    width: 44px; height: 44px;
-    background: var(--bg-warm);
+  .analogy-icon {
+    width: 44px;
+    height: 44px;
     border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Fraunces', serif;
-    font-size: 22px; color: var(--concierge);
-    margin-bottom: 8px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
   }
-  .channel h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 22px; font-weight: 400;
-    letter-spacing: -0.015em;
+  .analogy-text {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.55;
   }
-  .channel p { font-size: 14px; color: var(--ink-soft); }
+  .analogy-text strong {
+    color: var(--text);
+    font-weight: 500;
+  }
 
-  /* JOURNEY */
-  section.journey { padding: 110px 0; background: var(--bg-warm); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-  .journey-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-    margin-top: 30px;
+  /* Section base */
+  .section {
+    padding: 64px 0;
+    border-top: 1px solid var(--border);
   }
-  .journey-step {
-    border: 1px solid var(--hairline);
-    border-radius: 14px;
-    padding: 22px;
-    display: flex; flex-direction: column; gap: 10px;
-    background: var(--paper);
+  .section:first-of-type { border-top: none; }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 32px;
   }
-  .journey-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: var(--concierge);
-    letter-spacing: 0.18em;
-  }
-  .journey-title {
-    font-family: 'Fraunces', serif;
-    font-size: 18px; font-weight: 400;
-    color: var(--ink); letter-spacing: -0.01em; line-height: 1.2;
-  }
-  .journey-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
-
-  /* ROI */
-  section.roi { padding: 110px 0; }
-  .roi-grid {
-    display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
-    gap: 60px; align-items: start;
-  }
-  .roi-inputs {
-    background: var(--paper);
-    border: 1px solid var(--hairline);
-    border-radius: 16px;
-    padding: 30px;
-    display: flex; flex-direction: column; gap: 24px;
-  }
-  .roi-field { display: flex; flex-direction: column; gap: 10px; }
-  .roi-field label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--smoke);
-    display: flex; justify-content: space-between;
-  }
-  .roi-field label .val {
-    font-family: 'Fraunces', serif;
-    font-size: 17px; color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-  .roi-field input[type=range] { width: 100%; accent-color: var(--concierge); }
-  .roi-output {
-    background: var(--ink); color: var(--bg);
-    border-radius: 16px; padding: 36px;
-    display: flex; flex-direction: column; gap: 24px;
-  }
-  .roi-output-row {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(250, 247, 241, 0.12);
-  }
-  .roi-output-row:last-of-type { border-bottom: none; padding-top: 12px; margin-top: 6px; }
-  .roi-output-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 0.14em;
+  .section-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
     text-transform: uppercase;
-    color: rgba(250, 247, 241, 0.65);
-    max-width: 60%;
+    letter-spacing: 0.08em;
+    margin: 0;
   }
-  .roi-output-value {
-    font-family: 'Fraunces', serif;
-    font-size: 32px; font-weight: 400;
-    letter-spacing: -0.025em; color: var(--bg);
-  }
-  .roi-output-row.total .roi-output-value { font-size: 46px; color: var(--concierge); }
-  .roi-note { font-size: 12px; color: rgba(250, 247, 241, 0.55); line-height: 1.5; margin-top: 8px; }
-
-  /* CASES */
-  section.cases { padding: 110px 0; background: var(--bg-warm); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-  .case-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .case-card {
-    border: 1px solid var(--hairline);
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex; flex-direction: column;
-    background: var(--paper);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .case-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -20px rgba(20, 24, 31, 0.18); }
-  .case-image { aspect-ratio: 16 / 10; position: relative; overflow: hidden; }
-  .case-image.lago { background: linear-gradient(160deg, #1f3a4d, #2e5970 60%, #6a90a3); }
-  .case-image.villa { background: linear-gradient(160deg, #8e5a3a, #c08b5e 60%, #e5c19b); }
-  .case-image.palasiet { background: linear-gradient(160deg, #4a6b5e, #7fa093 60%, #b6cdc0); }
-  .case-image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.4)); }
-  .case-label {
-    position: absolute; bottom: 18px; left: 22px; z-index: 2;
-    color: white;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-  }
-  .case-body { padding: 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
-  .case-name { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.015em; line-height: 1.15; }
-  .case-desc { color: var(--ink-soft); font-size: 14px; line-height: 1.5; }
-  .case-stack {
-    margin-top: auto; padding-top: 14px;
-    border-top: 1px dashed var(--hairline);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--smoke);
+  .section-meta {
+    font-size: 13px;
+    color: var(--text-muted);
   }
 
-  /* DIFFERENT */
-  section.different { padding: 110px 0; background: var(--bg); }
-  .diff-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-  }
-  .diff-card {
-    padding: 32px;
-    border: 1px solid var(--hairline);
-    border-radius: 16px;
-    background: var(--paper);
-    display: flex; flex-direction: column; gap: 14px;
-  }
-  .diff-card .num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--concierge);
-    letter-spacing: 0.18em; margin-bottom: 8px;
-  }
-  .diff-card h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 23px; font-weight: 400;
-    letter-spacing: -0.015em; line-height: 1.15;
-  }
-  .diff-card p { color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
-
-  /* PRICING */
-  section.pricing { padding: 110px 0; background: var(--bg-warm); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-  .pricing-grid {
+  /* Steps */
+  .steps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-  .plan {
-    border: 1px solid var(--hairline);
-    border-radius: 16px;
-    padding: 32px;
-    background: var(--paper);
-    display: flex; flex-direction: column; gap: 18px;
-    position: relative;
+  .step {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
   }
-  .plan.featured { border-color: var(--ink); background: var(--ink); color: var(--bg); }
-  .plan.featured .plan-name, .plan.featured .plan-price-num, .plan.featured h4 { color: var(--bg); }
-  .plan.featured .plan-desc, .plan.featured .plan-features li { color: rgba(250, 247, 241, 0.75); }
-  .plan.featured .plan-price-suffix { color: rgba(250, 247, 241, 0.6); }
-  .plan-badge {
-    position: absolute; top: -12px; left: 32px;
-    background: var(--concierge); color: white;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 999px;
+  .step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
   }
-  .plan-name { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 400; letter-spacing: -0.015em; }
-  .plan-desc { font-size: 14px; color: var(--ink-soft); }
-  .plan-price {
-    display: flex; align-items: baseline; gap: 6px;
-    padding: 10px 0;
-    border-top: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
+  .step h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 6px;
   }
-  .plan.featured .plan-price { border-top-color: rgba(250, 247, 241, 0.15); border-bottom-color: rgba(250, 247, 241, 0.15); }
-  .plan-price-prefix { font-size: 13px; color: var(--smoke); }
-  .plan.featured .plan-price-prefix { color: rgba(250, 247, 241, 0.55); }
-  .plan-price-num {
-    font-family: 'Fraunces', serif;
-    font-size: 44px; font-weight: 400; letter-spacing: -0.03em;
+  .step p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.55;
   }
-  .plan-price-suffix { font-size: 14px; color: var(--smoke); }
-  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .plan-features li {
-    font-size: 14px; color: var(--ink-soft);
-    padding-left: 20px; position: relative;
-  }
-  .plan-features li::before {
-    content: "✓"; position: absolute; left: 0;
-    color: var(--concierge); font-weight: 600;
-  }
-  .plan .btn { width: 100%; justify-content: center; }
-  .plan-note { font-size: 11px; color: var(--smoke); text-align: center; line-height: 1.4; }
-  .plan.featured .plan-note { color: rgba(250, 247, 241, 0.5); }
 
-  /* FAQ */
-  section.faq { padding: 110px 0; }
-  .faq-list {
-    display: flex; flex-direction: column;
-    max-width: 820px; margin: 50px auto 0;
+  /* Verticales */
+  .verticals {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
   }
-  details.faq-item {
-    border-top: 1px solid var(--hairline);
-    padding: 22px 0;
+  .vertical {
+    padding: 20px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    text-align: center;
+    transition: border-color 0.15s ease;
   }
-  details.faq-item:last-child { border-bottom: 1px solid var(--hairline); }
-  details.faq-item summary {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(18px, 1.9vw, 22px);
-    font-weight: 400; letter-spacing: -0.01em;
-    cursor: pointer; list-style: none;
-    display: flex; justify-content: space-between;
-    align-items: baseline; gap: 20px;
+  .vertical:hover { border-color: var(--border-strong); }
+  .vertical i {
+    font-size: 24px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    display: block;
   }
-  details.faq-item summary::-webkit-details-marker { display: none; }
-  details.faq-item summary::after {
-    content: "+";
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 22px; color: var(--concierge);
+  .vertical span {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    display: block;
   }
-  details.faq-item[open] summary::after { content: "−"; }
-  details.faq-item p {
-    margin-top: 12px;
-    color: var(--ink-soft);
-    font-size: 15px;
-    max-width: 680px;
+  .vertical small {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Featured */
+  .featured {
+    padding: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    display: block;
+    transition: border-color 0.15s ease;
+    margin-bottom: 24px;
+  }
+  .featured:hover { border-color: var(--border-strong); }
+  .featured-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 28px;
+  }
+  .featured-main { flex: 1; }
+  .featured-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .featured-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .featured-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .featured-name {
+    font-weight: 500;
+    font-size: 18px;
+    margin: 0;
+  }
+  .featured-loc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 2px 0 0;
+  }
+  .featured-desc {
+    font-size: 14.5px;
+    color: var(--text-secondary);
+    margin: 16px 0;
     line-height: 1.6;
   }
-
-  /* CTA */
-  section.cta-final {
-    padding: 130px 0;
-    background: var(--ink);
-    color: var(--bg);
-    text-align: center;
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
   }
-  .cta-final .lead { color: rgba(250, 247, 241, 0.75); margin: 22px auto 36px; max-width: 560px; }
-  .cta-final .btn-primary { background: var(--concierge); color: white; }
-  .cta-final .btn-primary:hover { background: var(--bg); color: var(--ink); }
+  .tag {
+    font-size: 12px;
+    padding: 4px 10px;
+    background: var(--accent-bg);
+    color: var(--accent-strong);
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .featured-metric {
+    text-align: right;
+    padding-left: 24px;
+    border-left: 1px solid var(--border);
+    min-width: 160px;
+  }
+  .featured-metric-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin: 0 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .featured-metric-value {
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--accent);
+    margin: 0;
+    line-height: 1;
+  }
+  .featured-metric-note {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin: 8px 0 0;
+    line-height: 1.4;
+  }
+
+  /* Coming soon listings */
+  .listings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .listing {
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    position: relative;
+    opacity: 0.85;
+  }
+  .listing-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 3px 10px;
+    background: var(--coming-bg);
+    color: var(--coming-text);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .listing-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-right: 100px;
+  }
+  .listing-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .listing-name {
+    font-weight: 500;
+    font-size: 14.5px;
+    margin: 0;
+    color: var(--text);
+  }
+  .listing-loc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 2px 0 0;
+  }
+  .listing-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .listing-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    background: var(--surface-alt);
+    color: var(--text-secondary);
+    border-radius: 999px;
+  }
+
+  /* Methodology */
+  .method {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+  }
+  .method-text { flex: 1; }
+  .method-text h3 {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 6px;
+  }
+  .method-text p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.55;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid var(--text);
+    color: var(--text);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .btn:hover {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    margin: 32px 0 56px;
+    padding: 20px 24px;
+    background: var(--warning-bg);
+    border-radius: var(--radius);
+  }
+  .disclaimer p {
+    font-size: 13px;
+    color: var(--warning-text);
+    margin: 0;
+    line-height: 1.6;
+  }
+  .disclaimer strong { font-weight: 500; }
 
   /* Footer */
-  footer {
-    background: var(--ink);
-    color: rgba(250, 247, 241, 0.6);
-    padding: 40px 0 36px;
-    border-top: 1px solid rgba(250, 247, 241, 0.08);
+  .footer {
+    padding: 32px 0 48px;
+    border-top: 1px solid var(--border);
+    text-align: center;
     font-size: 13px;
+    color: var(--text-muted);
   }
-  .foot-grid {
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 30px; flex-wrap: wrap;
-  }
-  .foot-grid a { color: rgba(250, 247, 241, 0.65); text-decoration: none; margin-left: 22px; }
-  .foot-grid a:hover { color: var(--bg); }
+  .footer p { margin: 0 0 6px; }
 
   /* Responsive */
-  @media (max-width: 1020px) {
-    .pillars-grid { grid-template-columns: 1fr; }
+  @media (max-width: 900px) {
+    .verticals { grid-template-columns: repeat(2, 1fr); }
+    .listings { grid-template-columns: 1fr; }
   }
-  @media (max-width: 960px) {
-    .hero-grid, .roi-grid, .campaign-demo { grid-template-columns: 1fr; gap: 40px; }
-    .campaign-arrow { transform: rotate(90deg); }
-    .channels-grid, .case-grid, .diff-grid, .pricing-grid, .hotels-grid { grid-template-columns: 1fr; }
-    .journey-row { grid-template-columns: 1fr 1fr; }
-    .container { padding: 0 22px; }
-    nav.top .nav-links { display: none; }
-    section.hero { padding: 40px 0 60px; }
-    section.pillars, section.channels, section.cases, section.different, section.pricing, section.roi, section.journey, section.campaigns { padding: 70px 0; }
-    .hero-meta { grid-template-columns: 1fr; gap: 14px; }
-  }
-  @media (max-width: 540px) {
-    .journey-row { grid-template-columns: 1fr; }
+  @media (max-width: 720px) {
+    .hero { padding: 56px 0 32px; }
+    .hero h1 { font-size: 32px; }
+    .hero p { font-size: 16px; }
+    .nav { display: none; }
+    .steps { grid-template-columns: 1fr; }
+    .analogy-inner { flex-direction: column; text-align: center; padding: 24px; }
+    .featured { padding: 24px; }
+    .featured-inner { flex-direction: column; }
+    .featured-metric {
+      padding-left: 0;
+      padding-top: 20px;
+      border-left: none;
+      border-top: 1px solid var(--border);
+      text-align: left;
+      min-width: 0;
+      width: 100%;
+    }
+    .listing-head { padding-right: 90px; }
+    .method { flex-direction: column; align-items: flex-start; }
+    .section { padding: 40px 0; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="top">
-  <div class="container inner">
-    <a href="#" class="logo">
-      <span class="logo-mark">C</span>
-      ConciergeIA
-    </a>
-    <ul class="nav-links">
-      <li><a href="#producto">Producto</a></li>
-      <li><a href="#roi">Calculadora</a></li>
-      <li><a href="#casos">Casos</a></li>
-      <li><a href="/pricing">Planes</a></li>
-    </ul>
-    <a href="#cta" class="btn btn-primary btn-sm">Agendar demo</a>
+<header class="header">
+  <div class="container header-inner">
+    <div class="logo">
+      <div class="logo-mark"><i class="ti ti-eye"></i></div>
+      <span>AI-Visible</span>
+    </div>
+    <nav class="nav">
+      <a href="#directorio">Directorio</a>
+      <a href="#verticales">Verticales</a>
+      <a href="#metodologia">Metodología</a>
+      <a href="https://github.com/rafacorralhz-collab/ai-visible" target="_blank" rel="noopener">GitHub</a>
+    </nav>
   </div>
-</nav>
+</header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container hero-grid">
-    <div>
-      <div class="hero-eyebrow eyebrow-mark">
-        <span class="eyebrow">Para hoteles independientes</span>
+<main>
+
+  <section class="hero container">
+    <div class="badge">Proyecto académico · Nuclio Digital School 2026</div>
+    <h1>El directorio para que los asistentes conversacionales encuentren tu negocio</h1>
+    <p>Publica tu ficha en un directorio diseñado para aparecer en las respuestas de ChatGPT, Perplexity, Gemini y Claude. Con datos estructurados verificables y medición pública por motor.</p>
+  </section>
+
+  <section class="analogy container">
+    <div class="analogy-inner">
+      <div class="analogy-icon"><i class="ti ti-bulb"></i></div>
+      <p class="analogy-text"><strong>La idea, en una frase:</strong> lo que Booking hizo por los hoteles en los buscadores tradicionales, AI-Visible lo hace por cualquier negocio local en los asistentes conversacionales. Un directorio pensado desde el primer día para ser ingerido y citado por los LLMs.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">Cómo funciona</h2>
       </div>
-      <h1 class="display display-xl hero-title">
-        Más facturación por huésped.<br><em>Menos llamadas en recepción.</em>
-      </h1>
-      <p class="lead hero-lead">
-        ConciergeIA es el agente IA que vende los servicios de tu hotel, resuelve
-        las dudas de tus huéspedes y les recomienda planes a medida —en WhatsApp y email—
-        sin sumar trabajo a tu equipo.
-      </p>
-      <div class="hero-ctas">
-        <a href="#cta" class="btn btn-primary">Agendar una demo →</a>
-        <a href="#producto" class="btn btn-ghost">Ver cómo funciona</a>
-      </div>
-      <div class="hero-meta">
-        <div>
-          <div class="item-value">Boutique · Resort · Wellness</div>
-          <div class="item-label">Tres tipos de hospitality ya operando</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon"><i class="ti ti-file-text"></i></div>
+          <h3>Publicas tu ficha</h3>
+          <p>Datos estructurados en formato schema.org, con JSON-LD, páginas satélite y llms.txt. Optimizadas para los principales motores con grounding activo.</p>
         </div>
-        <div>
-          <div class="item-value">WhatsApp · Email</div>
-          <div class="item-label">Una conversación, dos canales</div>
+        <div class="step">
+          <div class="step-icon"><i class="ti ti-chart-bar"></i></div>
+          <h3>Medimos tu visibilidad</h3>
+          <p>Mediciones periódicas de descubribilidad por nombre y recomendación espontánea por categoría, desglosadas motor por motor.</p>
         </div>
-        <div>
-          <div class="item-value">Multi-idioma</div>
-          <div class="item-label">Responde en el idioma del huésped</div>
+        <div class="step">
+          <div class="step-icon"><i class="ti ti-target"></i></div>
+          <h3>Priorizamos exclusividad</h3>
+          <p>Plazas limitadas por sector y territorio. Sin canibalización entre clientes del directorio. Alineación de intereses garantizada.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="chat-card">
-      <div class="chat-header">
-        <div class="chat-avatar">L</div>
-        <div class="chat-meta-text">
-          <span class="chat-meta-name">Lago Resort Menorca</span>
-          <span class="chat-meta-status">En línea</span>
-        </div>
-        <span class="chat-room">Hab · 312</span>
+  <section class="section" id="verticales">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">Verticales del directorio</h2>
+        <span class="section-meta">Cualquier negocio con presencia local</span>
       </div>
-      <div class="chat-body">
-        <div class="msg in">
-          Hola, ¿a qué hora abre el spa los domingos?
-          <span class="msg-time">10:42</span>
+      <div class="verticals">
+        <div class="vertical">
+          <i class="ti ti-building-bank"></i>
+          <span>Asesorías</span>
+          <small>Fiscal, laboral, jurídica</small>
         </div>
-        <div class="msg out">
-          Buenos días Carla. El spa abre los domingos de 10 a 20h.
-          <span class="msg-time">10:42</span>
+        <div class="vertical">
+          <i class="ti ti-stethoscope"></i>
+          <span>Clínicas</span>
+          <small>Salud y bienestar</small>
         </div>
-        <div class="msg in">
-          ¿Tengo que reservar?
-          <span class="msg-time">10:43</span>
+        <div class="vertical">
+          <i class="ti ti-tools-kitchen-2"></i>
+          <span>Restauración</span>
+          <small>Restaurantes y hostelería</small>
         </div>
-        <div class="msg out">
-          Sí, recomendado. Hoy quedan huecos a las 11h, 12h y 17h. ¿Te reservo alguno?
-          <span class="msg-time">10:43</span>
+        <div class="vertical">
+          <i class="ti ti-bed"></i>
+          <span>Hospedaje</span>
+          <small>Hoteles y apartamentos</small>
         </div>
-        <div class="msg in">
-          A las 17h.
-          <span class="msg-time">10:44</span>
+        <div class="vertical">
+          <i class="ti ti-gavel"></i>
+          <span>Despachos</span>
+          <small>Abogados y notarías</small>
         </div>
-        <div class="msg out">
-          Reservado: spa hoy 17h, Carla Mendoza (Hab. 312). Te aviso una hora antes.
-          <span class="msg-time">10:44</span>
+        <div class="vertical">
+          <i class="ti ti-palette"></i>
+          <span>Agencias</span>
+          <small>Creatividad y marketing</small>
+        </div>
+        <div class="vertical">
+          <i class="ti ti-school"></i>
+          <span>Formación</span>
+          <small>Escuelas y academias</small>
+        </div>
+        <div class="vertical">
+          <i class="ti ti-hammer"></i>
+          <span>Talleres</span>
+          <small>Artesanía y oficios</small>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- HOTELS BAND -->
-<section class="hotels-band">
-  <div class="container">
-    <div class="hotels-label">
-      <span class="eyebrow">Algunos de los hoteles que ya operan con ConciergeIA</span>
-    </div>
-    <div class="hotels-grid">
-      <div class="hotel-tile">
-        <span class="hotel-cat">Hotel Boutique</span>
-        <span class="hotel-name">Villa Chiquita</span>
-        <span class="hotel-loc">Mallorca</span>
+  <section class="section" id="directorio">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">Ficha destacada</h2>
+        <span class="section-meta">Caso piloto verificado</span>
       </div>
-      <div class="hotel-tile">
-        <span class="hotel-cat">Hotel Resort</span>
-        <span class="hotel-name">Lago Resort Menorca</span>
-        <span class="hotel-loc">Menorca · 4 propiedades</span>
-      </div>
-      <div class="hotel-tile">
-        <span class="hotel-cat">Centro Wellness</span>
-        <span class="hotel-name">Palasiet</span>
-        <span class="hotel-loc">Castellón · Talasoterapia</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PILLARS -->
-<section class="pillars" id="producto">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-mark">El producto</span>
-      <h2 class="display display-lg">Tres cosas. <em>Hechas en serio.</em></h2>
-      <p class="lead">
-        ConciergeIA no es un chatbot más. Es un agente IA que hace tres cosas para tu hotel:
-        vender lo que ofreces, atender las dudas de los huéspedes y recomendar planes a medida
-        que mezclan tu hotel con su entorno.
-      </p>
-    </div>
-
-    <div class="pillars-grid">
-      <div class="pillar">
-        <span class="pillar-tag">01 — Vende</span>
-        <h3>Comunicaciones pre-llegada que tu hotel decide.</h3>
-        <p>
-          Tú defines qué se ofrece y a quién: desayuno a los que reservan sin él, traslado a
-          los que vienen del aeropuerto, late check-out a los que se van tarde. ConciergeIA
-          redacta el mensaje, lo personaliza al huésped y lo envía en el momento.
-        </p>
-        <div class="pillar-chat">
-          <div class="msg out">Hola Carla, soy el asistente de Lago Resort. Faltan tres días para tu llegada.</div>
-          <div class="msg out">Veo que tu reserva no incluye desayuno. Si lo añades ahora, te queda en 14 € por persona y noche (18 € desde recepción). ¿Lo añado?</div>
-          <div class="msg in">Sí, para los dos.</div>
-          <div class="msg out">Hecho. Desayuno × 2 personas × 4 noches. 112 € a la factura final.</div>
-        </div>
-        <div class="pillar-stats">
-          <div>
-            <div class="stat-num">3-8%</div>
-            <div class="stat-lbl">Conversión típica del upsell pre-llegada</div>
+      <a class="featured" href="/asesorias/velez-romero.html">
+        <div class="featured-inner">
+          <div class="featured-main">
+            <span class="featured-verified"><i class="ti ti-circle-check-filled"></i> Ficha verificada</span>
+            <div class="featured-head">
+              <div class="featured-avatar"><i class="ti ti-building-bank"></i></div>
+              <div>
+                <p class="featured-name">Asesoría Vélez &amp; Romero</p>
+                <p class="featured-loc">Chamberí, Madrid · Autónomos extranjeros y nómadas digitales</p>
+              </div>
+            </div>
+            <p class="featured-desc">Gestoría fiscal-laboral especializada en profesionales internacionales que se establecen en España. Atención en español, inglés y francés. Cobertura completa de régimen Beckham, alta de autónomo para extranjeros, Modelo 720 y trámites administrativos con NIE y TIE.</p>
+            <div class="tags">
+              <span class="tag">Régimen Beckham</span>
+              <span class="tag">NIE / TIE</span>
+              <span class="tag">Modelo 720</span>
+              <span class="tag">IRPF nómadas digitales</span>
+            </div>
           </div>
-          <div>
-            <div class="stat-num">25-80€</div>
-            <div class="stat-lbl">Valor medio del upsell capturado</div>
+          <div class="featured-metric">
+            <p class="featured-metric-label">Visibilidad medida</p>
+            <p class="featured-metric-value">50%</p>
+            <p class="featured-metric-note">tasa de citación por nombre en LLMs con grounding activo</p>
           </div>
         </div>
-      </div>
-
-      <div class="pillar">
-        <span class="pillar-tag">02 — Atiende</span>
-        <h3>Las veinte preguntas de cada día.</h3>
-        <p>
-          Horarios, parking, wifi, política de mascotas, restaurantes cerca, cómo llegar
-          desde el aeropuerto. Las preguntas que hoy ocupan a tu recepción quedan resueltas
-          en segundos, sin que nadie levante el teléfono.
-        </p>
-        <div class="pillar-chat">
-          <div class="msg in">¿El parking está incluido?</div>
-          <div class="msg out">El parking exterior está incluido en todas las habitaciones. Si necesitas garaje cubierto son 12 € la noche y queda hueco para hoy. ¿Te lo reservo?</div>
-          <div class="msg in">Sí, gracias.</div>
-          <div class="msg out">Reservado: garaje cubierto, esta noche. 12 € a la habitación.</div>
-        </div>
-        <div class="pillar-stats">
-          <div>
-            <div class="stat-num">2-4 min</div>
-            <div class="stat-lbl">Tiempo medio ahorrado por consulta resuelta</div>
-          </div>
-          <div>
-            <div class="stat-num">24/7</div>
-            <div class="stat-lbl">Disponibilidad sin coste extra de personal</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pillar">
-        <span class="pillar-tag">03 — Recomienda</span>
-        <h3>Planes a medida del huésped, no listas genéricas.</h3>
-        <p>
-          El huésped te cuenta qué le apetece. ConciergeIA diseña el plan combinando
-          lo de fuera (rutas, restaurantes, visitas) con lo de tu hotel (spa, cena,
-          experiencias). El upsell entra natural, en el contexto del plan.
-        </p>
-        <div class="pillar-chat">
-          <div class="msg in">Somos pareja, nos gusta la aventura pero también desconectar. Llegamos mañana.</div>
-          <div class="msg out">Plan para tu día completo:
-· Mañana: Camí de Cavalls (Cala Galdana → Cala Mitjana). 2h, costa espectacular.
-· Comida: Sa Caleta, pescado a pie de cala.
-· 18h: masaje en pareja en nuestro spa, 60 min, 95 € (en lugar de 120 € por ser huéspedes). ¿Te lo bloqueo?</div>
-          <div class="msg in">Sí, los dos.</div>
-        </div>
-        <div class="pillar-stats">
-          <div>
-            <div class="stat-num">Tu hotel</div>
-            <div class="stat-lbl">+ su entorno, en un solo plan</div>
-          </div>
-          <div>
-            <div class="stat-num">Tu voz</div>
-            <div class="stat-lbl">El bot habla como tu hotel, no genérico</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CAMPAIGNS IA -->
-<section class="campaigns">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-mark">Capacidad extra</span>
-      <h2 class="display display-lg">Campañas que escribes <em>en treinta segundos.</em></h2>
-      <p class="lead">
-        Una frase tuya de marketing → un mensaje completo, segmentado a los huéspedes alojados
-        ahora mismo. Sin diseñador, sin esperar a marketing, sin tener que pensar el copy.
-      </p>
-    </div>
-
-    <div class="campaign-demo">
-      <div class="campaign-input">
-        <span class="campaign-input-label">Tú escribes</span>
-        <div class="campaign-input-text">"Happy Hour 18-20h, 2×1 en cócteles de la terraza"</div>
-        <div class="campaign-input-meta">19:34 · Hoy</div>
-      </div>
-      <div class="campaign-arrow">
-        ⟶
-        <span>ConciergeIA redacta y segmenta</span>
-      </div>
-      <div class="campaign-output">
-        <span class="campaign-output-label">Mensaje enviado</span>
-        <div class="campaign-output-msg">
-          Hola Carla. Hoy de 18 a 20h tenemos Happy Hour en la terraza —2×1 en cócteles
-          de autor. ¿Te subimos uno?
-        </div>
-        <div class="campaign-output-meta">
-          <span>WhatsApp</span>
-          <span class="campaign-output-segment">47 huéspedes alojados</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CHANNELS -->
-<section class="channels">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-mark">Canales</span>
-      <h2 class="display display-lg">WhatsApp, email, web. <em>Una sola conversación.</em></h2>
-      <p class="lead">
-        Donde estén tus huéspedes, ConciergeIA está. Pero la conversación es una, no tres silos:
-        el bot recuerda qué se dijo en email cuando responde en WhatsApp.
-      </p>
-    </div>
-
-    <div class="channels-grid">
-      <div class="channel">
-        <div class="channel-icon">✦</div>
-        <h4>WhatsApp</h4>
-        <p>
-          El canal donde están tus huéspedes ahora mismo. Número propio de tu hotel,
-          plantillas Meta certificadas con tu marca, multi-idioma nativo.
-        </p>
-      </div>
-      <div class="channel">
-        <div class="channel-icon">✦</div>
-        <h4>Email</h4>
-        <p>
-          Donde tu sistema ya manda confirmaciones, ahora con IA respondiendo a las
-          réplicas del huésped. Confirmaciones formales, recordatorios, post-stay.
-        </p>
-      </div>
-      <div class="channel">
-        <div class="channel-icon">✦</div>
-        <h4>Widget web</h4>
-        <p>
-          Captación conversacional antes de la reserva: el visitante pregunta tarifas,
-          servicios y disponibilidad, el bot le contesta y captura el lead.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- JOURNEY -->
-<section class="journey">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-mark">El recorrido del huésped</span>
-      <h2 class="display display-lg">Cinco momentos. <em>Una sola conversación.</em></h2>
-      <p class="lead">
-        ConciergeIA acompaña al huésped desde la reserva hasta el post-stay,
-        sin interrupciones entre canales ni entre fases.
-      </p>
-    </div>
-    <div class="journey-row">
-      <div class="journey-step">
-        <span class="journey-num">001 / RESERVA</span>
-        <span class="journey-title">Confirmación con personalidad</span>
-        <span class="journey-desc">Bienvenida real desde el primer minuto. No un email automático que nadie abre.</span>
-      </div>
-      <div class="journey-step">
-        <span class="journey-num">002 / PRE-LLEGADA</span>
-        <span class="journey-title">Upsell + info, antes de que pregunten</span>
-        <span class="journey-desc">Desayuno, traslado, late check-out. Y cómo llegar, dónde aparcar, qué traer.</span>
-      </div>
-      <div class="journey-step">
-        <span class="journey-num">003 / ESTANCIA</span>
-        <span class="journey-title">El conserje 24/7</span>
-        <span class="journey-desc">Resuelve dudas, recomienda planes, gestiona peticiones, pasa al equipo cuando hace falta.</span>
-      </div>
-      <div class="journey-step">
-        <span class="journey-num">004 / SALIDA</span>
-        <span class="journey-title">Check-out sin colas</span>
-        <span class="journey-desc">Recogida de equipaje, factura, transporte, valoración. Sin colapsar recepción.</span>
-      </div>
-      <div class="journey-step">
-        <span class="journey-num">005 / POST-STAY</span>
-        <span class="journey-title">Volver antes de que olviden</span>
-        <span class="journey-desc">Campañas a tu base real de huéspedes, no a listas compradas.</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ROI CALCULATOR -->
-<section class="roi" id="roi">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-mark">Calculadora de impacto</span>
-      <h2 class="display display-lg">¿Cuánto vale ConciergeIA <em>en tu hotel?</em></h2>
-      <p class="lead">
-        Estimación basada en datos de nuestros hoteles operativos en 2026. Mueve los valores
-        para ver el impacto en upsell capturado y horas ahorradas a tu equipo.
-      </p>
-    </div>
-
-    <div class="roi-grid">
-      <div class="roi-inputs">
-        <div class="roi-field">
-          <label>
-            <span>Habitaciones</span>
-            <span class="val" id="rooms-val">60</span>
-          </label>
-          <input type="range" id="rooms" min="20" max="300" value="60">
-        </div>
-        <div class="roi-field">
-          <label>
-            <span>Ocupación media</span>
-            <span class="val" id="occ-val">70%</span>
-          </label>
-          <input type="range" id="occ" min="30" max="95" value="70">
-        </div>
-        <div class="roi-field">
-          <label>
-            <span>ADR — Tarifa media por noche</span>
-            <span class="val" id="adr-val">180€</span>
-          </label>
-          <input type="range" id="adr" min="60" max="600" step="10" value="180">
-        </div>
-      </div>
-
-      <div class="roi-output">
-        <div class="roi-output-row">
-          <span class="roi-output-label">Huéspedes estimados / mes</span>
-          <span class="roi-output-value" id="out-guests">1.260</span>
-        </div>
-        <div class="roi-output-row">
-          <span class="roi-output-label">Upsell capturado / mes</span>
-          <span class="roi-output-value" id="out-upsell">€2.520</span>
-        </div>
-        <div class="roi-output-row">
-          <span class="roi-output-label">Horas ahorradas a recepción / mes</span>
-          <span class="roi-output-value" id="out-hours">63h</span>
-        </div>
-        <div class="roi-output-row total">
-          <span class="roi-output-label">Impacto total estimado / mes</span>
-          <span class="roi-output-value" id="out-total">€3.465</span>
-        </div>
-        <p class="roi-note">
-          Conversión upsell asumida del 5% sobre huéspedes alojados, valor medio 40 € por
-          venta. 3 minutos ahorrados por consulta resuelta por IA, valorados a 15 €/h.
-          Cifras orientativas — el dato real depende de tu mix de servicios y operativa.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CASES -->
-<section class="cases" id="casos">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-mark">Una muestra de nuestros casos</span>
-      <h2 class="display display-lg">Algunos hoteles, <em>distintos modos de usarlo.</em></h2>
-    </div>
-    <div class="case-grid">
-      <div class="case-card">
-        <div class="case-image villa">
-          <span class="case-label">Hotel Boutique</span>
-        </div>
-        <div class="case-body">
-          <h3 class="case-name">Villa Chiquita</h3>
-          <p class="case-desc">
-            Boutique premium en Mallorca. Conserje Completo con integración Mews,
-            WhatsApp y email — journey de huésped completo, desde reserva hasta post-stay.
-          </p>
-          <div class="case-stack">Conserje Completo · Mews</div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-image lago">
-          <span class="case-label">Hotel Resort</span>
-        </div>
-        <div class="case-body">
-          <h3 class="case-name">Lago Resort Menorca</h3>
-          <p class="case-desc">
-            Resort estacional con cuatro propiedades en Menorca. Conserje Web para
-            captación conversacional y resolución de dudas pre-reserva.
-          </p>
-          <div class="case-stack">Conserje Web · 4 propiedades</div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-image palasiet">
-          <span class="case-label">Centro Wellness</span>
-        </div>
-        <div class="case-body">
-          <h3 class="case-name">Palasiet</h3>
-          <p class="case-desc">
-            Centro de talasoterapia premium en Castellón. Conserje Web para captación
-            conversacional desde su página de tratamientos.
-          </p>
-          <div class="case-stack">Conserje Web · Wellness</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DIFFERENT -->
-<section class="different">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-mark">Cómo trabajamos</span>
-      <h2 class="display display-lg">Lo que prometemos <em>lo enseñamos por escrito.</em></h2>
-    </div>
-    <div class="diff-grid">
-      <div class="diff-card">
-        <div class="num">01</div>
-        <h3>Encima de tu PMS, no dentro.</h3>
-        <p>
-          Nos conectamos a tu PMS por lectura. No escribimos en él, no lo modificamos,
-          no rompemos nada. Lo que pasa en tu PMS sigue siendo de tu PMS.
-          Lo que pasa en WhatsApp y email, lo gestionamos nosotros.
-        </p>
-      </div>
-      <div class="diff-card">
-        <div class="num">02</div>
-        <h3>Empezamos contigo en dos semanas.</h3>
-        <p>
-          Setup hecho por nuestro equipo, no por el tuyo. Tú nos das la información del
-          hotel, nosotros configuramos plantillas, voz y journey. Recibes el producto
-          funcionando, no instrucciones de configuración.
-        </p>
-      </div>
-      <div class="diff-card">
-        <div class="num">03</div>
-        <h3>Conversaciones reales, no flows rígidos.</h3>
-        <p>
-          La IA conversa de verdad: entiende contexto, recuerda lo dicho, encadena frases.
-          Sin botones obligatorios ni menús estructurados. Es la diferencia entre un
-          chatbot tradicional y un agente IA.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-mark">Planes</span>
-      <h2 class="display display-lg">Tres planes. <em>Sin sorpresas en la factura.</em></h2>
-      <p class="lead">
-        El plan se elige por tipo de hotel y nivel de profundidad, no por número de funciones.
-        Costes de envío de Meta (plantillas WhatsApp) no incluidos — se pagan directo a Meta.
-      </p>
-    </div>
-
-    <div class="pricing-grid">
-      <div class="plan">
-        <div class="plan-name">Conserje Web</div>
-        <p class="plan-desc">Captación conversacional pre-reserva desde tu web. El primer paso, sin tocar tu PMS.</p>
-        <div class="plan-price">
-          <span class="plan-price-prefix">Desde</span>
-          <span class="plan-price-num">80€</span>
-          <span class="plan-price-suffix">/ mes</span>
-        </div>
-        <ul class="plan-features">
-          <li>Widget WhatsApp en tu web</li>
-          <li>Knowledge base del hotel (multi-idioma)</li>
-          <li>Captura de leads en tu CRM</li>
-          <li>Dashboard de conversaciones</li>
-          <li>Toma humana por tu equipo en cualquier momento</li>
-          <li>Setup en una semana</li>
-        </ul>
-        <a href="#cta" class="btn btn-ghost">Empezar aquí</a>
-        <p class="plan-note">Sin integración PMS · Sin journey post-reserva</p>
-      </div>
-
-      <div class="plan featured">
-        <span class="plan-badge">Recomendado</span>
-        <div class="plan-name">Conserje Completo</div>
-        <p class="plan-desc">El producto entero. Vende, atiende y recomienda durante todo el recorrido del huésped, en WhatsApp y email.</p>
-        <div class="plan-price">
-          <span class="plan-price-prefix">Desde</span>
-          <span class="plan-price-num">290€</span>
-          <span class="plan-price-suffix">/ mes</span>
-        </div>
-        <ul class="plan-features">
-          <li>Todo lo del Conserje Web</li>
-          <li>Integración con tu PMS</li>
-          <li>Número de WhatsApp propio</li>
-          <li>Gestión de plantillas Meta (alta y certificación)</li>
-          <li>Email gestionado por IA</li>
-          <li>Journey completo (5 fases)</li>
-          <li>Upsell pre-llegada y estancia automatizado</li>
-          <li>Recomendaciones de planes a medida (hotel + entorno)</li>
-          <li>Campañas IA en tiempo real (Happy Hour, ofertas flash)</li>
-        </ul>
-        <a href="#cta" class="btn btn-primary" style="background:var(--concierge)">Agendar demo →</a>
-        <p class="plan-note">Setup único + recurrente. Sin permanencia oculta.</p>
-      </div>
-
-      <div class="plan">
-        <div class="plan-name">Resort &amp; Cadenas</div>
-        <p class="plan-desc">Multi-propiedad, integraciones a medida, SLA dedicado.</p>
-        <div class="plan-price">
-          <span class="plan-price-prefix"></span>
-          <span class="plan-price-num">Hablamos</span>
-          <span class="plan-price-suffix"></span>
-        </div>
-        <ul class="plan-features">
-          <li>Todo lo del Conserje Completo</li>
-          <li>Multi-propiedad en una consola</li>
-          <li>Integraciones custom</li>
-          <li>SLA de soporte dedicado</li>
-          <li>Onboarding por propiedad</li>
-          <li>Tarifa por habitación o flat según volumen</li>
-        </ul>
-        <a href="#cta" class="btn btn-ghost">Contacto comercial</a>
-        <p class="plan-note">Pricing a medida según volumen y complejidad</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq">
-  <div class="container-narrow">
-    <div class="section-head" style="text-align:center; margin:0 auto;">
-      <span class="eyebrow eyebrow-mark" style="justify-content:center">Preguntas frecuentes</span>
-      <h2 class="display display-lg" style="margin-top:18px">Lo que nos preguntan <em>en cada demo.</em></h2>
-    </div>
-    <div class="faq-list">
-      <details class="faq-item">
-        <summary>¿Qué pasa cuando la IA no sabe qué responder?</summary>
-        <p>Pasa la conversación a tu equipo inmediatamente, en la misma sala de WhatsApp o
-        email, sin perder contexto. El huésped no nota el cambio, tu equipo recibe la
-        conversación con todo el historial.</p>
-      </details>
-      <details class="faq-item">
-        <summary>¿El upsell del bot interfiere con la venta de mi equipo de recepción?</summary>
-        <p>No. El bot propone lo que tú decides que proponga. Si quieres que venda desayuno y
-        spa pero no restaurante, lo configuras. Si quieres que escale ciertos servicios a
-        recepción para venta personal, también. Tú decides el reparto.</p>
-      </details>
-      <details class="faq-item">
-        <summary>¿Cuánto tarda la implementación?</summary>
-        <p>Conserje Web: una semana. Conserje Completo: entre dos y cuatro semanas según la
-        integración con tu PMS. Te damos calendario concreto en la demo, con fechas.</p>
-      </details>
-      <details class="faq-item">
-        <summary>¿Funciona en varios idiomas?</summary>
-        <p>Sí. La IA detecta el idioma del huésped y responde en el mismo. Español, inglés,
-        alemán, francés, italiano incluidos por defecto. Si necesitas otro, lo añadimos.</p>
-      </details>
-      <details class="faq-item">
-        <summary>¿Dónde se alojan los datos y cómo afecta a nuestro PMS?</summary>
-        <p>Los datos de las conversaciones se alojan en servidores europeos (Frankfurt y
-        Dublín). Nos conectamos a tu PMS solo por lectura — no escribimos, no modificamos,
-        no rompemos nada. Antes de empezar firmamos el contrato de encargo del tratamiento
-        estándar AEPD.</p>
-      </details>
-      <details class="faq-item">
-        <summary>¿Hablamos directamente con Meta o lo gestionáis vosotros?</summary>
-        <p>Lo gestionamos nosotros: alta de número, plantillas, certificación de marca. Los
-        costes de envío de WhatsApp los paga el hotel directamente a Meta. Te enseñamos
-        cómo dimensionarlo en la demo.</p>
-      </details>
-      <details class="faq-item">
-        <summary>¿Mi equipo tiene que aprender una herramienta nueva?</summary>
-        <p>Una pantalla web donde ven las conversaciones activas y pueden intervenir.
-        Formación en una hora. No sustituye a tu PMS, vive al lado.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- CTA FINAL -->
-<section class="cta-final" id="cta">
-  <div class="container">
-    <h2 class="display display-lg">
-      Treinta minutos. <em>Sin diapositivas.</em>
-    </h2>
-    <p class="lead">
-      En la demo te enseñamos una cuenta real, con conversaciones reales, y te decimos
-      en qué encaja con tu hotel y en qué no. Sin compromisos.
-    </p>
-    <a href="mailto:hola@conciergeia.ai" class="btn btn-primary">Agendar una demo →</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="container foot-grid">
-    <div>
-      <a href="#" class="logo" style="color:var(--bg)">
-        <span class="logo-mark">C</span>
-        ConciergeIA
       </a>
+
+      <div class="section-head" style="margin-top: 40px;">
+        <h2 class="section-title">Próximas incorporaciones</h2>
+        <span class="section-meta">Fichas en preparación</span>
+      </div>
+      <div class="listings">
+        <div class="listing">
+          <span class="listing-badge">Próximamente</span>
+          <div class="listing-head">
+            <div class="listing-avatar"><i class="ti ti-stethoscope"></i></div>
+            <div>
+              <p class="listing-name">Clínica Dental Aurora</p>
+              <p class="listing-loc">Barcelona · Odontología estética</p>
+            </div>
+          </div>
+          <div class="listing-tags">
+            <span class="listing-tag">Estética</span>
+            <span class="listing-tag">Implantes</span>
+            <span class="listing-tag">Ortodoncia invisible</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <span class="listing-badge">Próximamente</span>
+          <div class="listing-head">
+            <div class="listing-avatar"><i class="ti ti-bed"></i></div>
+            <div>
+              <p class="listing-name">Boutique Hostel Verdemar</p>
+              <p class="listing-loc">Menorca · Hospedaje sostenible</p>
+            </div>
+          </div>
+          <div class="listing-tags">
+            <span class="listing-tag">Boutique</span>
+            <span class="listing-tag">Sostenible</span>
+            <span class="listing-tag">Slow travel</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <span class="listing-badge">Próximamente</span>
+          <div class="listing-head">
+            <div class="listing-avatar"><i class="ti ti-gavel"></i></div>
+            <div>
+              <p class="listing-name">Estudio Jurídico Vega</p>
+              <p class="listing-loc">Sevilla · Derecho laboral</p>
+            </div>
+          </div>
+          <div class="listing-tags">
+            <span class="listing-tag">Despidos</span>
+            <span class="listing-tag">Convenios</span>
+            <span class="listing-tag">Prevención de riesgos</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <span class="listing-badge">Próximamente</span>
+          <div class="listing-head">
+            <div class="listing-avatar"><i class="ti ti-tools-kitchen-2"></i></div>
+            <div>
+              <p class="listing-name">Restaurante Marea Alta</p>
+              <p class="listing-loc">Valencia · Cocina de temporada</p>
+            </div>
+          </div>
+          <div class="listing-tags">
+            <span class="listing-tag">Km 0</span>
+            <span class="listing-tag">Menú degustación</span>
+            <span class="listing-tag">Sin gluten</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <span class="listing-badge">Próximamente</span>
+          <div class="listing-head">
+            <div class="listing-avatar"><i class="ti ti-school"></i></div>
+            <div>
+              <p class="listing-name">Escuela Sol Naciente</p>
+              <p class="listing-loc">Málaga · Educación Montessori</p>
+            </div>
+          </div>
+          <div class="listing-tags">
+            <span class="listing-tag">Montessori</span>
+            <span class="listing-tag">Infantil y primaria</span>
+            <span class="listing-tag">Bilingüe</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <span class="listing-badge">Próximamente</span>
+          <div class="listing-head">
+            <div class="listing-avatar"><i class="ti ti-hammer"></i></div>
+            <div>
+              <p class="listing-name">Taller Herrera</p>
+              <p class="listing-loc">Bilbao · Restauración de muebles</p>
+            </div>
+          </div>
+          <div class="listing-tags">
+            <span class="listing-tag">Antigüedades</span>
+            <span class="listing-tag">Ebanistería</span>
+            <span class="listing-tag">Restauración</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-      © 2026 Rayco Sales SL · Synaptim Labs
-      <a href="/privacy">Privacidad</a>
-      <a href="/terms">Términos</a>
-      <a href="mailto:hola@conciergeia.ai">Contacto</a>
+  </section>
+
+  <section class="section" id="metodologia">
+    <div class="container">
+      <div class="method">
+        <div class="method-text">
+          <h3>Metodología pública</h3>
+          <p>Todo el código del motor de medición, los prompts del agente generador y los datos brutos de las mediciones están disponibles en GitHub para replicación independiente. La transparencia metodológica es el eje de la propuesta.</p>
+        </div>
+        <a class="btn" href="https://github.com/rafacorralhz-collab/ai-visible" target="_blank" rel="noopener">
+          <i class="ti ti-brand-github"></i> Ver en GitHub
+        </a>
+      </div>
+
+      <div class="disclaimer">
+        <p><strong>Aviso académico:</strong> AI-Visible es un proyecto experimental desarrollado como Trabajo Final del Máster en Inteligencia Artificial de Nuclio Digital School (curso 2025-2026). La ficha de Asesoría Vélez &amp; Romero es el único caso piloto real del directorio, señalizado como ficticio en cada una de sus páginas. Las fichas marcadas como «Próximamente» son ejemplos ilustrativos del alcance previsto del directorio y no corresponden a negocios reales. La plataforma no ofrece servicios comerciales en este momento.</p>
+      </div>
     </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 AI-Visible · TFM Máster en IA · Nuclio Digital School</p>
+    <p>Rafael Corral Gómez y Agustín Rodríguez · Director del TFM: Jose Vicente Sáez Ibáñez</p>
   </div>
 </footer>
-
-<script>
-  const rooms = document.getElementById('rooms');
-  const occ = document.getElementById('occ');
-  const adr = document.getElementById('adr');
-  const roomsVal = document.getElementById('rooms-val');
-  const occVal = document.getElementById('occ-val');
-  const adrVal = document.getElementById('adr-val');
-  const outGuests = document.getElementById('out-guests');
-  const outUpsell = document.getElementById('out-upsell');
-  const outHours = document.getElementById('out-hours');
-  const outTotal = document.getElementById('out-total');
-
-  const UPSELL_CONV = 0.05;
-  const UPSELL_VALUE = 40;
-  const MIN_SAVED_PER_GUEST = 3;
-  const HOURLY_VALUE = 15;
-
-  function fmt(n) { return new Intl.NumberFormat('es-ES').format(Math.round(n)); }
-  function fmtEUR(n) { return '€' + fmt(n); }
-
-  function calc() {
-    const r = parseInt(rooms.value);
-    const o = parseInt(occ.value) / 100;
-    const a = parseInt(adr.value);
-
-    const guests = Math.round(r * o * 30);
-    const upsell = Math.round(guests * UPSELL_CONV * UPSELL_VALUE);
-    const hours = Math.round(guests * MIN_SAVED_PER_GUEST / 60);
-    const opSaving = Math.round(hours * HOURLY_VALUE);
-    const total = upsell + opSaving;
-
-    roomsVal.textContent = r;
-    occVal.textContent = (o * 100).toFixed(0) + '%';
-    adrVal.textContent = a + '€';
-    outGuests.textContent = fmt(guests);
-    outUpsell.textContent = fmtEUR(upsell);
-    outHours.textContent = fmt(hours) + 'h';
-    outTotal.textContent = fmtEUR(total);
-  }
-
-  rooms.addEventListener('input', calc);
-  occ.addEventListener('input', calc);
-  adr.addEventListener('input', calc);
-  calc();
-</script>
 
 </body>
 </html>
